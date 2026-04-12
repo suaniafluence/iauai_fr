@@ -44,6 +44,7 @@
         var(--chalk);
       line-height: 1.5;
     }
+    body.rtl { direction: rtl; text-align: right; }
     h1,h2,h3,h4 { font-family: "Sora","Segoe UI",Arial,sans-serif; letter-spacing: -0.03em; margin: 0; }
     p { margin: 0; }
     a { color: inherit; text-decoration: none; }
@@ -110,6 +111,7 @@
     }
     .brand { display: flex; align-items: center; gap: 14px; }
     .brand img { width: 50px; height: 50px; object-fit: contain; border-radius: 12px; }
+    .topbar-tools { display: flex; align-items: center; gap: 12px; }
     .logo-word {
       font-family: "Sora",sans-serif; font-size: clamp(1.5rem,3vw,2.1rem);
       font-weight: 800; line-height: 1; color: var(--white); letter-spacing: -0.03em;
@@ -127,6 +129,16 @@
       transition: all 0.2s;
     }
     .nav-links a:hover, .nav-links a.active { color: var(--ocre); background: rgba(255,255,255,0.06); }
+    .lang-select {
+      min-width: 126px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.08);
+      color: var(--white);
+      font-size: 0.88rem;
+    }
+    .lang-select option { color: var(--anthracite); }
     .nav-cta {
       margin-left: 12px !important;
       padding: 10px 20px !important;
@@ -474,6 +486,7 @@
     }
     @media (max-width: 760px) {
       .nav-links { display: none; }
+      .topbar-tools { margin-left: auto; }
       .hamburger { display: flex; }
       .two-col, .section-head, .hero-note { grid-template-columns: 1fr; }
       .team-grid { grid-template-columns: 1fr 1fr; }
@@ -522,16 +535,25 @@
           <div class="logo-tagline">Intelligence · Souveraineté · Territoire</div>
         </div>
       </a>
-      <nav class="nav-links" aria-label="Navigation principale">
-        <a href="#vision">Notre vision</a>
-        <a href="#equipe">L'équipe</a>
-        <a href="#quiz-teaser">Quiz IA</a>
-        <a href="#contact">Contact</a>
-        <a href="quiz.html" class="nav-cta">Tester ma maturité →</a>
-      </nav>
-      <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" onclick="toggleMobileNav()">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="topbar-tools">
+        <nav class="nav-links" aria-label="Navigation principale">
+          <a href="#vision">Notre vision</a>
+          <a href="#equipe">L'équipe</a>
+          <a href="#quiz-teaser">Quiz IA</a>
+          <a href="#contact">Contact</a>
+          <a href="quiz.html" class="nav-cta">Tester ma maturité →</a>
+        </nav>
+        <select class="lang-select" id="langSelect" aria-label="Choisir la langue">
+          <option value="fr">FR</option>
+          <option value="en">EN</option>
+          <option value="es">ES</option>
+          <option value="zh">中文</option>
+          <option value="ar">AR</option>
+        </select>
+        <button class="hamburger" id="hamburger" aria-label="Ouvrir le menu" aria-expanded="false" onclick="toggleMobileNav()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
     <nav class="mobile-nav" id="mobileNav" aria-label="Navigation mobile">
       <a href="#vision" onclick="closeMobileNav()">Notre vision</a>
@@ -1059,5 +1081,6 @@
       };
     });
   </script>
+  <script src="assets/homepage-i18n.js"></script>
 </body>
 </html>
