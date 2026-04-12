@@ -98,13 +98,13 @@
       <p>The website <strong>iauai.fr</strong> is published by IAuAI.</p>
       <div class="info-card">
         <div class="info-row"><span class="info-label">Company name</span><span class="info-val">IAuAI</span></div>
-        <div class="info-row"><span class="info-label">Legal form</span><span class="info-val"><span class="placeholder">[SAS / LLC / to be completed]</span></span></div>
-        <div class="info-row"><span class="info-label">Share capital</span><span class="info-val"><span class="placeholder">[Amount in € — to be completed]</span></span></div>
-        <div class="info-row"><span class="info-label">Registration number</span><span class="info-val"><span class="placeholder">[Registration number — to be completed]</span></span></div>
-        <div class="info-row"><span class="info-label">Trade register</span><span class="info-val"><span class="placeholder">[Registration city — to be completed]</span></span></div>
-        <div class="info-row"><span class="info-label">VAT number</span><span class="info-val"><span class="placeholder">[EU VAT number — to be completed]</span></span></div>
+        <div class="info-row"><span class="info-label">Legal form</span><span class="info-val">SAS</span></div>
+        <div class="info-row"><span class="info-label">Share capital</span><span class="info-val">€2,500</span></div>
+        <div class="info-row"><span class="info-label">Registration number</span><span class="info-val"><span class="placeholder">[Registration number — pending]</span></span></div>
+        <div class="info-row"><span class="info-label">Trade register</span><span class="info-val"><span class="placeholder">[Registration city — pending]</span></span></div>
+        <div class="info-row"><span class="info-label">VAT number</span><span class="info-val"><span class="placeholder">[EU VAT number — pending]</span></span></div>
         <div class="info-row"><span class="info-label">Registered office</span><span class="info-val"><span class="placeholder">[Full address — to be completed]</span></span></div>
-        <div class="info-row"><span class="info-label">Phone</span><span class="info-val"><span class="placeholder">[Phone number — to be completed]</span></span></div>
+        <div class="info-row"><span class="info-label">Phone</span><span class="info-val"><span class="placeholder">[Phone number — pending]</span></span></div>
         <div class="info-row"><span class="info-label">Email</span><span class="info-val"><a href="mailto:contact@iauai.fr">contact@iauai.fr</a></span></div>
         <div class="info-row"><span class="info-label">Website</span><span class="info-val"><a href="https://iauai.fr">https://iauai.fr</a></span></div>
       </div>
@@ -171,13 +171,13 @@
       <p>El sitio <strong>iauai.fr</strong> es editado por IAuAI.</p>
       <div class="info-card">
         <div class="info-row"><span class="info-label">Razón social</span><span class="info-val">IAuAI</span></div>
-        <div class="info-row"><span class="info-label">Forma jurídica</span><span class="info-val"><span class="placeholder">[SAS / SL / por completar]</span></span></div>
-        <div class="info-row"><span class="info-label">Capital social</span><span class="info-val"><span class="placeholder">[Importe en € — por completar]</span></span></div>
-        <div class="info-row"><span class="info-label">Número de registro</span><span class="info-val"><span class="placeholder">[Número de registro — por completar]</span></span></div>
-        <div class="info-row"><span class="info-label">Registro mercantil</span><span class="info-val"><span class="placeholder">[Ciudad de inscripción — por completar]</span></span></div>
-        <div class="info-row"><span class="info-label">NIF intracomunitario</span><span class="info-val"><span class="placeholder">[NIF IVA UE — por completar]</span></span></div>
+        <div class="info-row"><span class="info-label">Forma jurídica</span><span class="info-val">SAS</span></div>
+        <div class="info-row"><span class="info-label">Capital social</span><span class="info-val">2 500 €</span></div>
+        <div class="info-row"><span class="info-label">Número de registro</span><span class="info-val"><span class="placeholder">[Número de registro — en trámite]</span></span></div>
+        <div class="info-row"><span class="info-label">Registro mercantil</span><span class="info-val"><span class="placeholder">[Ciudad de inscripción — en trámite]</span></span></div>
+        <div class="info-row"><span class="info-label">NIF intracomunitario</span><span class="info-val"><span class="placeholder">[NIF IVA UE — en trámite]</span></span></div>
         <div class="info-row"><span class="info-label">Domicilio social</span><span class="info-val"><span class="placeholder">[Dirección completa — por completar]</span></span></div>
-        <div class="info-row"><span class="info-label">Teléfono</span><span class="info-val"><span class="placeholder">[Número de teléfono — por completar]</span></span></div>
+        <div class="info-row"><span class="info-label">Teléfono</span><span class="info-val"><span class="placeholder">[Número de teléfono — en trámite]</span></span></div>
         <div class="info-row"><span class="info-label">Email</span><span class="info-val"><a href="mailto:contact@iauai.fr">contact@iauai.fr</a></span></div>
         <div class="info-row"><span class="info-label">Sitio web</span><span class="info-val"><a href="https://iauai.fr">https://iauai.fr</a></span></div>
       </div>
