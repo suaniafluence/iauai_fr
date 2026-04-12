@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" data-page-desc-fr="Quiz IA IAuAI." data-page-desc-en="IAuAI AI quiz." content="Quiz IA IAuAI." />
+  <meta name="robots" content="index, follow" />
+  <title data-page-title-fr="Quiz IA — IAuAI" data-page-title-en="AI Quiz — IAuAI">Quiz IA — IAuAI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/site.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <div class="topbar-inner">
+        <a class="brand" data-link-base="index.html" href="index.html">
+          <img src="logo_iauai_clair.png" alt="IAuAI" />
+          <div>
+            <div class="logo-word">IA<span class="u">u</span>AI</div>
+            <div class="logo-tagline" data-fr="Intelligence · Souveraineté · Territoire" data-en="Intelligence · Sovereignty · Territory"></div>
+          </div>
+        </a>
+        <div class="nav-shell">
+          <nav class="nav-links">
+            <a data-link-base="index.html" href="index.html" data-fr="Accueil" data-en="Home"></a>
+            <a class="active" data-link-base="quiz.html" href="quiz.html" data-fr="Quiz IA" data-en="AI Quiz"></a>
+          </nav>
+          <select class="lang-select" data-locale-select>
+            <option value="fr">FR · Français</option>
+            <option value="en">EN · English</option>
+            <option value="es">ES · Español</option>
+            <option value="zh">中文 · 中文</option>
+            <option value="ar">AR · العربية</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="quiz-shell">
+    <div class="wrap">
+      <section class="quiz-select" id="quiz-select">
+        <div class="eyebrow" style="justify-content:center;" data-fr="Quiz IA · Gratuit · 5 min" data-en="AI Quiz · Free · 5 min"></div>
+        <h1 data-fr="Où en êtes-vous vraiment avec l'IA ?" data-en="Where do you really stand with AI?"></h1>
+        <p data-fr="Choisissez un thème. Le diagnostic est immédiat et pensé pour un dirigeant." data-en="Pick a theme. The diagnosis is immediate and designed for business leaders."></p>
+        <div class="quiz-list" id="quiz-list"></div>
+      </section>
+      <section class="quiz-screen" id="quiz-screen">
+        <div class="quiz-header">
+          <h2 id="quiz-title" style="color:var(--navy);margin-bottom:12px;"></h2>
+          <div class="progress-meta"><span id="quiz-progress-text"></span><span id="quiz-progress-percent"></span></div>
+          <div class="progress-track"><div class="progress-fill" id="quiz-progress-fill"></div></div>
+        </div>
+        <div class="question-card card">
+          <div class="question-title" id="question-title"></div>
+          <div class="option-list" id="option-list"></div>
+        </div>
+        <div class="quiz-nav">
+          <button class="btn-muted" id="quiz-prev"></button>
+          <button class="btn-primary" id="quiz-next"></button>
+        </div>
+      </section>
+      <section class="quiz-analyzing" id="quiz-analyzing">
+        <div class="analyze-box card">
+          <div style="font-size:3rem;margin-bottom:18px;">🤖</div>
+          <h2 style="color:var(--navy);margin-bottom:10px;" data-fr="Analyse en cours…" data-en="Analysis in progress…"></h2>
+          <p data-fr="Notre moteur consolide vos réponses." data-en="Our engine is consolidating your answers."></p>
+          <div class="analyze-steps">
+            <div class="analyze-step" data-fr="Lecture de vos réponses" data-en="Reading your answers"></div>
+            <div class="analyze-step" data-fr="Mise en perspective métier" data-en="Adding business context"></div>
+            <div class="analyze-step" data-fr="Calcul de votre profil" data-en="Calculating your profile"></div>
+            <div class="analyze-step" data-fr="Préparation des recommandations" data-en="Preparing recommendations"></div>
+          </div>
+        </div>
+      </section>
+      <section class="quiz-result" id="quiz-result">
+        <div class="card" style="padding:0;overflow:hidden;">
+          <div class="result-header">
+            <div class="result-badge" id="result-badge"></div>
+            <h2 id="result-title" style="margin-bottom:10px;"></h2>
+            <p id="result-subtitle" style="color:rgba(255,255,255,.78);"></p>
+          </div>
+          <div class="result-body">
+            <div class="quote-meta" id="result-score-label"></div>
+            <div class="progress-track" style="margin:12px 0 8px;"><div class="progress-fill" id="result-score-fill" style="width:0;"></div></div>
+            <div id="result-score-note" style="color:rgba(43,43,43,.58);"></div>
+            <div class="insight-list" id="result-insights"></div>
+            <div class="actions">
+              <a class="btn-primary" href="mailto:contact@iauai.fr" data-fr="Parler à l'équipe" data-en="Talk to the team"></a>
+              <button class="btn-secondary" id="quiz-restart" type="button" data-fr="Recommencer" data-en="Start again"></button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+  <script src="assets/i18n.js"></script>
+  <script>
+    const QUIZZES = {
+      fr: {
+        buttons: { prev: '← Précédent', next: 'Suivant →', finish: 'Voir mon diagnostic →', question: 'Question', of: 'sur' },
+        items: [
+          { id: 1, icon: '🎯', tag: 'Quiz 1 · Maturité', title: "Évaluez la maturité IA de votre entreprise", description: "Situez votre organisation et voyez ce qui manque pour passer au niveau supérieur.", scoreLabel: 'Indice de maturité', questions: [["Quelle est votre situation actuelle ?", ['Aucune initiative structurée', 'Quelques tests isolés', 'Un pilote formalisé', 'Plusieurs usages déjà déployés'], [0,1,2,3]], ["Vos équipes utilisent-elles des outils IA ?", ['Jamais', 'À titre individuel', 'Sur certains processus', 'Oui, avec cadre et gouvernance'], [0,1,2,3]], ["Votre direction a-t-elle une vision claire ?", ['Non', 'Partielle', 'Oui sur quelques priorités', 'Oui avec feuille de route'], [0,1,2,3]], ["Comment traitez-vous les données sensibles ?", ['Aucun cadre', 'Prudence informelle', 'Règles écrites', 'Gouvernance active'], [0,1,2,3]]], results: [[2, '🔴 Stade initial', 'Vous êtes au tout début.', "L'urgence n'est pas de multiplier les outils, mais de poser un cadre crédible.", ['Clarifiez 2 priorités métier.', 'Cadrez les usages autorisés.', 'Choisissez un premier pilote simple.']], [7, '🟠 Stade exploratoire', 'Vous avez des signaux, pas encore un système.', 'Le bon prochain pas est de transformer les essais isolés en programme lisible.', ['Formalisez une feuille de route 90 jours.', 'Désignez un sponsor direction.', 'Sélectionnez un cas d\'usage avec ROI court.']], [12, '🟢 Stade structuré', 'Votre base est solide.', "L'enjeu devient l'industrialisation maîtrisée.", ['Étendez la gouvernance métier.', 'Mesurez les gains réels.', 'Priorisez 2 déploiements supplémentaires.']]] },
+          { id: 2, icon: '⏱️', tag: 'Quiz 2 · Temps', title: 'Combien d\'heures perdez-vous chaque semaine ?', description: "Identifiez les tâches répétitives où l'IA peut libérer du temps.", scoreLabel: 'Potentiel de gain', questions: [["Combien de temps passez-vous sur l'email et le tri d'information ?", ['Moins de 2h', '2 à 5h', '5 à 8h', 'Plus de 8h'], [0,1,2,3]], ['Le reporting est-il manuel ?', ['Non', 'Parfois', 'Souvent', 'Quasi toujours'], [0,1,2,3]], ['Les équipes recherchent-elles souvent des informations dispersées ?', ['Rarement', 'Parfois', 'Souvent', 'Tous les jours'], [0,1,2,3]], ['Les comptes-rendus et synthèses sont-ils longs à produire ?', ['Non', 'Un peu', 'Oui', 'Beaucoup'], [0,1,2,3]]], results: [[3, '🟢 Faible friction', 'Votre perte de temps est contenue.', "L'IA peut surtout améliorer le confort et la vitesse d'exécution.", ['Automatisez les synthèses récurrentes.', 'Ajoutez un assistant documentaire simple.', 'Gardez une approche légère et ciblée.']], [8, '🟠 Réserve de temps visible', 'Vous avez un vrai levier d\'efficacité.', 'Quelques automatisations ciblées peuvent rendre plusieurs heures par semaine.', ['Priorisez emails, reporting et recherche documentaire.', 'Créez un pilote pour une équipe métier.', 'Mesurez les heures récupérées après 30 jours.']], [12, '🔴 Gisement important', 'Vous perdez du temps à haute fréquence.', 'Il faut structurer des usages IA à ROI rapide.', ['Lancez un chantier d\'automatisation.', 'Réduisez les frictions documentaires.', 'Fixez un objectif de temps récupéré.']]] },
+          { id: 3, icon: '🧠', tag: 'Quiz 3 · Leader', title: 'Quel type de leader IA êtes-vous ?', description: 'Découvrez la posture qui guide vos décisions face à l\'IA.', scoreLabel: 'Engagement IA', questions: [['Votre première réaction face à l\'IA est…', ['L\'enthousiasme', 'La curiosité pragmatique', 'La prudence', 'Le scepticisme'], [3,2,1,0]], ['Quand un projet est incertain, vous…', ['Lancez vite', 'Testez en pilote', 'Attendez des garanties', 'Repoussez'], [3,2,1,0]], ['Votre rapport à la donnée est…', ['Stratégique', 'Pratique', 'Prudent', 'Distant'], [3,2,1,0]], ['Votre rôle auprès des équipes est plutôt…', ['Moteur', 'Soutien', 'Arbitre', 'Frein'], [3,2,1,0]]], results: [[3, '🤔 Profil Résistant', 'Vous doutez encore fortement.', 'Il faut des preuves simples et concrètes.', ['Commencez par un échange sans jargon.', 'Regardez un usage à ROI visible.', 'Ne lancez rien de large sans évidence.']], [7, '🛡️ Profil Prudent', 'Vous avancez avec méthode.', 'Votre force est la rigueur, votre risque est l\'inertie.', ['Cadrez la conformité.', 'Choisissez un pilote sans exposition excessive.', 'Fixez un calendrier de décision.']], [12, '⚙️ Profil Pragmatique / Visionnaire', 'Vous êtes prêt à agir si la structure suit.', 'Avec un bon cadre, vous pouvez aller vite sans perdre en maîtrise.', ['Priorisez un business case net.', 'Associez gouvernance et exécution.', 'Mettez une équipe courte et responsable.']]] }
+        ]
+      },
+      en: {
+        buttons: { prev: '← Previous', next: 'Next →', finish: 'See my diagnosis →', question: 'Question', of: 'of' },
+        items: [
+          { id: 1, icon: '🎯', tag: 'Quiz 1 · Maturity', title: 'Assess your company\'s AI maturity', description: 'Place your organization on the map and see what is missing to move up.', scoreLabel: 'Maturity index', questions: [['What is your current situation?', ['No structured initiative', 'A few isolated tests', 'One formal pilot', 'Several live use cases'], [0,1,2,3]], ['Are teams already using AI tools?', ['Never', 'Individually only', 'On selected workflows', 'Yes, with governance'], [0,1,2,3]], ['Does leadership have a clear view?', ['No', 'Partly', 'Yes on some priorities', 'Yes with a roadmap'], [0,1,2,3]], ['How do you handle sensitive data?', ['No framework', 'Informal caution', 'Written rules', 'Active governance'], [0,1,2,3]]], results: [[2, '🔴 Early stage', 'You are at the very beginning.', 'The priority is not more tools, but a credible operating frame.', ['Clarify 2 business priorities.', 'Define allowed usage rules.', 'Pick one simple pilot.']], [7, '🟠 Exploratory stage', 'You have signals, not yet a system.', 'The next step is turning isolated experiments into a readable program.', ['Formalize a 90-day roadmap.', 'Name an executive sponsor.', 'Choose one short-ROI use case.']], [12, '🟢 Structured stage', 'Your base is solid.', 'The challenge now is controlled scale and durable adoption.', ['Extend governance to business teams.', 'Measure real gains.', 'Prioritize 2 additional deployments.']]] },
+          { id: 2, icon: '⏱️', tag: 'Quiz 2 · Time', title: 'How many hours are you losing each week?', description: 'Identify repetitive work where AI can free up time.', scoreLabel: 'Savings potential', questions: [['How much time goes into email and information triage?', ['Less than 2h', '2 to 5h', '5 to 8h', 'More than 8h'], [0,1,2,3]], ['Is reporting manual?', ['No', 'Sometimes', 'Often', 'Almost always'], [0,1,2,3]], ['Do teams often search across scattered sources?', ['Rarely', 'Sometimes', 'Often', 'Every day'], [0,1,2,3]], ['Are summaries and meeting notes slow to produce?', ['No', 'A bit', 'Yes', 'A lot'], [0,1,2,3]]], results: [[3, '🟢 Low friction', 'Your time loss is still contained.', 'AI would mostly improve comfort and execution speed.', ['Automate recurring summaries.', 'Add a lightweight document assistant.', 'Keep the approach narrow.']], [8, '🟠 Clear time reserve', 'You have a real efficiency lever.', 'Targeted automation can return several hours per week.', ['Prioritize email, reporting and document search.', 'Run a pilot with one business team.', 'Measure hours recovered after 30 days.']], [12, '🔴 Major opportunity', 'You are losing time at high frequency.', 'This calls for structured, quick-ROI AI usage.', ['Launch a management automation stream.', 'Reduce document friction first.', 'Set a time-recovery target.']]] },
+          { id: 3, icon: '🧠', tag: 'Quiz 3 · Leader', title: 'What kind of AI leader are you?', description: 'Discover the posture driving your decisions around AI.', scoreLabel: 'AI engagement', questions: [['Your first reaction to AI is…', ['Excitement', 'Pragmatic curiosity', 'Caution', 'Skepticism'], [3,2,1,0]], ['When a project is uncertain, you…', ['Move fast', 'Test with a pilot', 'Wait for guarantees', 'Postpone'], [3,2,1,0]], ['Your relationship to data is…', ['Strategic', 'Practical', 'Careful', 'Distant'], [3,2,1,0]], ['Your role with teams is mostly…', ['Driver', 'Support', 'Arbiter', 'Brake'], [3,2,1,0]]], results: [[3, '🤔 Resistant profile', 'You still have strong doubts.', 'You need simple, concrete proof points.', ['Start with a no-jargon conversation.', 'Look at one visible-ROI use case.', 'Do not launch broadly without evidence.']], [7, '🛡️ Careful profile', 'You move methodically.', 'Your strength is rigor; your risk is prolonged inertia.', ['Frame compliance first.', 'Pick one low-exposure pilot.', 'Set a decision timeline.']], [12, '⚙️ Pragmatic / visionary profile', 'You are ready to move if the structure is sound.', 'With the right frame, you can move fast without losing control.', ['Prioritize a clear business case.', 'Link governance and execution.', 'Use a short, accountable team.']]] }
+        ]
+      }
+    };
+    const locale = IAUAI_I18N.getLocale();
+    IAUAI_I18N.applyLocale(locale);
+    const data = QUIZZES[QUIZZES[locale] ? locale : 'en'];
+    document.getElementById('quiz-prev').textContent = data.buttons.prev;
+    document.getElementById('quiz-next').textContent = data.buttons.next;
+    const list = document.getElementById('quiz-list');
+    list.innerHTML = data.items.map(q => `<article class="quiz-tile card" data-quiz="${q.id}"><div class="quiz-icon">${q.icon}</div><div class="quiz-meta"><div class="quiz-tag">${q.tag}</div><h3>${q.title}</h3><p>${q.description}</p></div><div class="quiz-arrow">→</div></article>`).join('');
+    const select = document.getElementById('quiz-select');
+    const screen = document.getElementById('quiz-screen');
+    const analyzing = document.getElementById('quiz-analyzing');
+    const result = document.getElementById('quiz-result');
+    const prev = document.getElementById('quiz-prev');
+    const next = document.getElementById('quiz-next');
+    const restart = document.getElementById('quiz-restart');
+    let currentQuiz = null; let currentIndex = 0; let answers = [];
+    function show(view){select.style.display=view==='select'?'block':'none';screen.style.display=view==='screen'?'block':'none';analyzing.style.display=view==='analyzing'?'block':'none';result.style.display=view==='result'?'block':'none';}
+    function renderQuestion(){const q=currentQuiz.questions[currentIndex];const total=currentQuiz.questions.length;document.getElementById('quiz-title').textContent=currentQuiz.title;document.getElementById('question-title').textContent=q[0];document.getElementById('quiz-progress-text').textContent=`${data.buttons.question} ${currentIndex+1} ${data.buttons.of} ${total}`;document.getElementById('quiz-progress-percent').textContent=`${Math.round(((currentIndex+1)/total)*100)}%`;document.getElementById('quiz-progress-fill').style.width=`${((currentIndex+1)/total)*100}%`;const opts=document.getElementById('option-list');opts.innerHTML='';q[1].forEach((label,i)=>{const b=document.createElement('button');b.className=`option-btn${answers[currentIndex]===i?' selected':''}`;b.type='button';b.innerHTML=`<span class="option-index">${String.fromCharCode(65+i)}</span><span>${label}</span>`;b.onclick=()=>{answers[currentIndex]=i;renderQuestion();};opts.appendChild(b);});prev.disabled=currentIndex===0;next.textContent=currentIndex===total-1?data.buttons.finish:data.buttons.next;next.disabled=answers[currentIndex]===null||answers[currentIndex]===undefined;}
+    function score(){return answers.reduce((sum,ans,idx)=>sum+currentQuiz.questions[idx][2][ans],0);}
+    function showResult(){const total=score();const out=currentQuiz.results.find(([limit])=>total<=limit)||currentQuiz.results[currentQuiz.results.length-1];const max=currentQuiz.questions.length*3;document.getElementById('result-badge').textContent=out[1];document.getElementById('result-title').textContent=out[2];document.getElementById('result-subtitle').textContent=out[3];document.getElementById('result-score-label').textContent=currentQuiz.scoreLabel;document.getElementById('result-score-note').textContent=`${total}/${max}`;document.getElementById('result-insights').innerHTML=out[4].map(x=>`<div class="insight">${x}</div>`).join('');setTimeout(()=>{document.getElementById('result-score-fill').style.width=`${Math.round((total/max)*100)}%`;},100);show('result');}
+    function analyze(){show('analyzing');const steps=[...document.querySelectorAll('.analyze-step')];steps.forEach(step=>step.classList.remove('active','done'));let i=0;const timer=setInterval(()=>{if(i>0)steps[i-1].classList.add('done');if(i<steps.length){steps[i].classList.add('active');i+=1;return;}clearInterval(timer);showResult();},450);}
+    list.querySelectorAll('[data-quiz]').forEach(tile=>tile.onclick=()=>{currentQuiz=data.items.find(q=>q.id===Number(tile.dataset.quiz));currentIndex=0;answers=new Array(currentQuiz.questions.length).fill(null);show('screen');renderQuestion();window.scrollTo({top:0,behavior:'smooth'});});
+    prev.onclick=()=>{if(currentIndex>0){currentIndex-=1;renderQuestion();}};
+    next.onclick=()=>{if(answers[currentIndex]===null||answers[currentIndex]===undefined)return;if(currentIndex<currentQuiz.questions.length-1){currentIndex+=1;renderQuestion();}else{analyze();}};
+    restart.onclick=()=>{currentQuiz=null;currentIndex=0;answers=[];document.getElementById('result-score-fill').style.width='0';show('select');window.scrollTo({top:0,behavior:'smooth'});};
+    show('select');
+  </script>
+</body>
+</html>
