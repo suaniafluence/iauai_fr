@@ -3,991 +3,143 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Quiz IA IAuAI — Testez votre maturité IA, calculez vos gains de temps, découvrez votre profil de leader. Diagnostic personnalisé en 5 minutes." />
+  <meta name="description" data-page-desc-fr="Quiz IA IAuAI." data-page-desc-en="IAuAI AI quiz." content="Quiz IA IAuAI." />
   <meta name="robots" content="index, follow" />
-  <title>Quiz IA — IAuAI · Diagnostic personnalisé</title>
-  <link rel="canonical" href="https://iauai.fr/quiz.html" />
+  <title data-page-title-fr="Quiz IA — IAuAI" data-page-title-en="AI Quiz — IAuAI">Quiz IA — IAuAI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    :root {
-      --navy: #1A2E4A;
-      --ocre: #C4852A;
-      --green: #2D6A4F;
-      --chalk: #F5F2EC;
-      --anthracite: #2B2B2B;
-      --white: #FFFFFF;
-      --line: rgba(26,46,74,0.14);
-      --shadow: 0 20px 60px rgba(12,24,43,0.12);
-      --radius: 22px;
-      --max: 860px;
-    }
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Inter,"Segoe UI",Roboto,Arial,sans-serif;
-      color: var(--anthracite);
-      background:
-        radial-gradient(circle at 1px 1px,rgba(26,46,74,0.08) 1px,transparent 0) 0 0/26px 26px,
-        var(--chalk);
-      min-height: 100vh;
-    }
-    h1,h2,h3,h4 { font-family:"Sora","Segoe UI",Arial,sans-serif; letter-spacing:-0.03em; margin:0; }
-    p { margin:0; }
-    a { color:inherit; text-decoration:none; }
-    .wrap { width:min(calc(100% - 40px),var(--max)); margin:0 auto; }
-
-    /* NAV */
-    .topbar {
-      background:var(--navy); border-bottom:3px solid var(--ocre);
-      position:sticky; top:0; z-index:100;
-    }
-    .topbar-inner {
-      min-height:72px; display:flex; align-items:center;
-      justify-content:space-between; gap:20px; padding:12px 0;
-    }
-    .brand { display:flex; align-items:center; gap:12px; }
-    .brand img { width:44px; height:44px; object-fit:contain; border-radius:10px; }
-    .logo-word { font-family:"Sora",sans-serif; font-size:1.8rem; font-weight:800; color:var(--white); letter-spacing:-0.03em; }
-    .logo-word .u { color:var(--ocre); }
-    .back-link { display:flex; align-items:center; gap:8px; color:rgba(255,255,255,0.7); font-size:0.9rem; transition:color 0.2s; }
-    .back-link:hover { color:var(--ocre); }
-
-    /* QUIZ SHELL */
-    .quiz-shell { padding:56px 0 80px; }
-
-    /* LANDING — quiz selection */
-    #quiz-landing { display:block; }
-    .landing-header { text-align:center; margin-bottom:48px; }
-    .pill {
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 18px; background:rgba(196,133,42,0.12);
-      color:var(--ocre); border-radius:999px;
-      font-family:"JetBrains Mono",monospace; font-size:0.78rem;
-      text-transform:uppercase; letter-spacing:0.1em; margin-bottom:20px;
-    }
-    .landing-header h1 { font-size:clamp(2rem,5vw,3.2rem); color:var(--navy); margin-bottom:14px; }
-    .landing-header p { font-size:1.08rem; color:rgba(43,43,43,0.72); max-width:54ch; margin:0 auto; line-height:1.68; }
-
-    .quiz-cards { display:grid; gap:16px; }
-    .quiz-card {
-      background:rgba(255,255,255,0.82); border:1px solid rgba(26,46,74,0.12);
-      box-shadow:var(--shadow); border-radius:var(--radius);
-      padding:28px 30px; cursor:pointer; transition:all 0.22s;
-      display:flex; align-items:center; gap:22px;
-    }
-    .quiz-card:hover { border-color:var(--ocre); transform:translateY(-3px); background:var(--white); }
-    .quiz-card-icon { font-size:2.2rem; flex-shrink:0; }
-    .quiz-card-content { flex:1; }
-    .quiz-card-label { font-family:"JetBrains Mono",monospace; font-size:0.72rem; color:var(--ocre); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:5px; }
-    .quiz-card h3 { font-size:1.12rem; color:var(--navy); margin-bottom:6px; }
-    .quiz-card p { font-size:0.88rem; color:rgba(43,43,43,0.68); line-height:1.55; }
-    .quiz-card-arrow { color:var(--ocre); font-size:1.3rem; flex-shrink:0; transition:transform 0.2s; }
-    .quiz-card:hover .quiz-card-arrow { transform:translateX(4px); }
-    .quiz-card-badge {
-      padding:4px 10px; border-radius:999px;
-      font-size:0.72rem; font-weight:600;
-      background:rgba(196,133,42,0.1); color:var(--ocre);
-      margin-top:8px; display:inline-block;
-    }
-
-    /* QUIZ SCREEN */
-    #quiz-screen { display:none; }
-    .quiz-header { margin-bottom:36px; }
-    .quiz-title-bar { display:flex; align-items:center; gap:16px; margin-bottom:20px; }
-    .quiz-icon { font-size:2rem; }
-    .quiz-title-bar h2 { font-size:1.5rem; color:var(--navy); }
-    .progress-wrap { margin-bottom:32px; }
-    .progress-info { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-    .progress-label { font-family:"JetBrains Mono",monospace; font-size:0.76rem; color:var(--ocre); text-transform:uppercase; letter-spacing:0.08em; }
-    .progress-step { font-family:"JetBrains Mono",monospace; font-size:0.76rem; color:rgba(43,43,43,0.45); }
-    .progress-bar-track { height:6px; background:rgba(26,46,74,0.1); border-radius:999px; overflow:hidden; }
-    .progress-bar-fill { height:100%; background:var(--ocre); border-radius:999px; transition:width 0.4s ease; }
-
-    .question-card {
-      background:var(--white); border:1px solid rgba(26,46,74,0.12);
-      box-shadow:var(--shadow); border-radius:var(--radius);
-      padding:36px; margin-bottom:20px;
-    }
-    .question-text { font-size:1.18rem; color:var(--navy); line-height:1.5; margin-bottom:28px; font-family:"Sora",sans-serif; font-weight:600; }
-    .options-grid { display:grid; gap:12px; }
-    .option-btn {
-      padding:16px 20px; border-radius:14px; cursor:pointer; text-align:left;
-      background:rgba(26,46,74,0.03); border:2px solid rgba(26,46,74,0.1);
-      font-size:0.95rem; color:var(--anthracite); font-family:inherit;
-      transition:all 0.18s; display:flex; align-items:center; gap:12px;
-    }
-    .option-btn:hover { border-color:var(--ocre); background:rgba(196,133,42,0.06); color:var(--navy); }
-    .option-btn.selected { border-color:var(--navy); background:rgba(26,46,74,0.07); color:var(--navy); font-weight:600; }
-    .option-btn .opt-letter {
-      width:28px; height:28px; border-radius:8px; flex-shrink:0;
-      background:rgba(26,46,74,0.08); color:var(--navy);
-      font-family:"JetBrains Mono",monospace; font-size:0.8rem; font-weight:600;
-      display:flex; align-items:center; justify-content:center;
-      transition:all 0.18s;
-    }
-    .option-btn.selected .opt-letter { background:var(--navy); color:var(--white); }
-    .option-btn:hover .opt-letter { background:var(--ocre); color:var(--white); }
-
-    .nav-buttons { display:flex; justify-content:space-between; align-items:center; margin-top:24px; }
-    .btn-prev {
-      padding:12px 22px; background:transparent; color:var(--anthracite);
-      border:1.5px solid rgba(26,46,74,0.15); border-radius:10px;
-      font-size:0.92rem; font-family:inherit; cursor:pointer; transition:all 0.2s;
-    }
-    .btn-prev:hover { border-color:var(--navy); color:var(--navy); }
-    .btn-prev:disabled { opacity:0.3; cursor:not-allowed; }
-    .btn-next {
-      padding:13px 30px; background:var(--navy); color:var(--white);
-      border:none; border-radius:10px;
-      font-size:0.95rem; font-weight:600; font-family:inherit; cursor:pointer; transition:all 0.2s;
-    }
-    .btn-next:hover { background:var(--ocre); }
-    .btn-next:disabled { opacity:0.4; cursor:not-allowed; }
-
-    /* ANALYZING SCREEN */
-    #quiz-analyzing { display:none; text-align:center; padding:60px 0; }
-    .analyzing-icon { font-size:3.5rem; margin-bottom:24px; animation:pulse 1.5s infinite; }
-    @keyframes pulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.08);opacity:0.7} }
-    #quiz-analyzing h2 { font-size:1.8rem; color:var(--navy); margin-bottom:12px; }
-    #quiz-analyzing p { color:rgba(43,43,43,0.65); font-size:1.02rem; line-height:1.6; }
-    .analyzing-steps { display:grid; gap:10px; max-width:360px; margin:32px auto 0; }
-    .analyze-step {
-      display:flex; align-items:center; gap:12px;
-      padding:12px 16px; border-radius:12px;
-      background:rgba(255,255,255,0.8); border:1px solid var(--line);
-      font-size:0.88rem; color:rgba(43,43,43,0.6);
-      transition:all 0.4s;
-    }
-    .analyze-step.active { color:var(--navy); font-weight:500; border-color:var(--ocre); background:var(--white); }
-    .analyze-step.done { color:var(--green); }
-    .step-dot { width:8px; height:8px; border-radius:50%; background:rgba(43,43,43,0.2); flex-shrink:0; }
-    .analyze-step.active .step-dot { background:var(--ocre); }
-    .analyze-step.done .step-dot { background:var(--green); }
-
-    /* RESULT SCREEN */
-    #quiz-result { display:none; }
-    .result-card {
-      background:var(--white); border:1px solid rgba(26,46,74,0.12);
-      box-shadow:var(--shadow); border-radius:var(--radius); overflow:hidden;
-    }
-    .result-header {
-      padding:36px 36px 28px;
-      background:linear-gradient(135deg,var(--navy) 0%,#223b61 100%);
-      color:var(--white); position:relative;
-    }
-    .result-header::before {
-      content:""; position:absolute; inset:0;
-      background:radial-gradient(circle at 80% 50%,rgba(196,133,42,0.25),transparent 60%);
-    }
-    .result-header > * { position:relative; z-index:1; }
-    .result-profile-badge {
-      display:inline-flex; align-items:center; gap:8px;
-      padding:6px 14px; border-radius:999px;
-      background:rgba(196,133,42,0.2); border:1px solid rgba(196,133,42,0.4);
-      font-family:"JetBrains Mono",monospace; font-size:0.76rem;
-      color:var(--ocre); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:16px;
-    }
-    .result-title { font-size:1.6rem; color:var(--white); margin-bottom:10px; }
-    .result-subtitle { color:rgba(255,255,255,0.72); font-size:1rem; line-height:1.6; }
-    .result-body { padding:32px 36px; }
-    .result-score-bar { margin-bottom:28px; }
-    .result-score-label { font-family:"JetBrains Mono",monospace; font-size:0.76rem; color:var(--ocre); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px; }
-    .score-track { height:10px; background:rgba(26,46,74,0.08); border-radius:999px; overflow:hidden; margin-bottom:6px; }
-    .score-fill { height:100%; border-radius:999px; background:linear-gradient(90deg,var(--ocre),#e8a030); }
-    .score-note { font-size:0.82rem; color:rgba(43,43,43,0.55); }
-    .result-insights { display:grid; gap:14px; margin-bottom:28px; }
-    .insight-item { display:flex; align-items:flex-start; gap:12px; padding:16px; border-radius:14px; background:rgba(26,46,74,0.04); border:1px solid var(--line); }
-    .insight-icon { font-size:1.2rem; flex-shrink:0; }
-    .insight-text { font-size:0.9rem; color:var(--anthracite); line-height:1.55; }
-    .insight-text strong { color:var(--navy); }
-    .result-cta {
-      padding:28px 36px 36px; border-top:1px solid var(--line);
-      background:rgba(26,46,74,0.02); text-align:center;
-    }
-    .result-cta p { font-size:0.95rem; color:rgba(43,43,43,0.7); margin-bottom:20px; }
-    .cta-buttons { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
-    .btn-cta-primary {
-      display:inline-flex; align-items:center; gap:8px;
-      padding:14px 30px; background:var(--navy); color:var(--white);
-      border-radius:12px; font-size:0.96rem; font-weight:700; transition:all 0.2s;
-    }
-    .btn-cta-primary:hover { background:var(--ocre); transform:translateY(-2px); }
-    .btn-cta-secondary {
-      display:inline-flex; align-items:center; gap:8px;
-      padding:14px 26px; background:transparent; color:var(--navy);
-      border-radius:12px; font-size:0.93rem; font-weight:600;
-      border:2px solid rgba(26,46,74,0.2); transition:all 0.2s;
-    }
-    .btn-cta-secondary:hover { border-color:var(--navy); background:var(--navy); color:var(--white); }
-    .restart-link { display:block; margin-top:18px; font-size:0.85rem; color:rgba(43,43,43,0.45); cursor:pointer; }
-    .restart-link:hover { color:var(--ocre); }
-
-    @media(max-width:600px) {
-      .quiz-card { flex-direction:column; align-items:flex-start; gap:14px; }
-      .quiz-card-arrow { display:none; }
-      .result-header, .result-body, .result-cta { padding-left:22px; padding-right:22px; }
-      .question-card { padding:24px; }
-    }
-  </style>
+  <link rel="stylesheet" href="assets/site.css" />
 </head>
 <body>
-
-  <!-- NAV -->
   <header class="topbar">
-    <div class="wrap" style="max-width:var(--max)">
+    <div class="wrap">
       <div class="topbar-inner">
-        <a href="index.html" class="brand">
-          <img src="logo_iauai_clair.png" alt="Logo IAuAI" />
-          <span class="logo-word">IA<span class="u">u</span>AI</span>
+        <a class="brand" data-link-base="index.html" href="index.html">
+          <img src="logo_iauai_clair.png" alt="IAuAI" />
+          <div>
+            <div class="logo-word">IA<span class="u">u</span>AI</div>
+            <div class="logo-tagline" data-fr="Intelligence · Souveraineté · Territoire" data-en="Intelligence · Sovereignty · Territory"></div>
+          </div>
         </a>
-        <a href="index.html" class="back-link">← Retour au site</a>
+        <div class="nav-shell">
+          <nav class="nav-links">
+            <a data-link-base="index.html" href="index.html" data-fr="Accueil" data-en="Home"></a>
+            <a class="active" data-link-base="quiz.html" href="quiz.html" data-fr="Quiz IA" data-en="AI Quiz"></a>
+          </nav>
+          <select class="lang-select" data-locale-select>
+            <option value="fr">FR · Français</option>
+            <option value="en">EN · English</option>
+            <option value="es">ES · Español</option>
+            <option value="zh">中文 · 中文</option>
+            <option value="ar">AR · العربية</option>
+          </select>
+        </div>
       </div>
     </div>
   </header>
-
   <main class="quiz-shell">
     <div class="wrap">
-
-      <!-- =====================================================
-           LANDING — Sélection du quiz
-      ===================================================== -->
-      <div id="quiz-landing">
-        <div class="landing-header">
-          <div class="pill">⚡ Quiz IA · Gratuit · 5 min</div>
-          <h1>Quel dirigeant IA êtes-vous ?</h1>
-          <p>Choisissez un thème. Notre IA analyse vos réponses et vous délivre un diagnostic personnalisé.</p>
-        </div>
-
-        <div class="quiz-cards">
-          <div class="quiz-card" onclick="startQuiz(1)">
-            <div class="quiz-card-icon">🎯</div>
-            <div class="quiz-card-content">
-              <div class="quiz-card-label">Quiz 1 · Maturité</div>
-              <h3>Évaluez la maturité IA de votre entreprise</h3>
-              <p>Testez où vous en êtes par rapport à vos concurrents. En sortie, un diagnostic précis sur votre étape et ce qui vous manque pour avancer.</p>
-              <span class="quiz-card-badge">6 questions · ~4 min</span>
-            </div>
-            <div class="quiz-card-arrow">→</div>
-          </div>
-
-          <div class="quiz-card" onclick="startQuiz(2)">
-            <div class="quiz-card-icon">⏱️</div>
-            <div class="quiz-card-content">
-              <div class="quiz-card-label">Quiz 2 · Gains de temps</div>
-              <h3>Combien d'heures par semaine perdez-vous à des tâches que l'IA peut faire ?</h3>
-              <p>Questions sur vos process (emails, reporting, recrutement…). L'IA calcule un chiffre concret. Impact émotionnel garanti.</p>
-              <span class="quiz-card-badge">6 questions · ~4 min</span>
-            </div>
-            <div class="quiz-card-arrow">→</div>
-          </div>
-
-          <div class="quiz-card" onclick="startQuiz(3)">
-            <div class="quiz-card-icon">🔥</div>
-            <div class="quiz-card-content">
-              <div class="quiz-card-label">Quiz 3 · Urgence sectorielle</div>
-              <h3>Votre secteur est-il transformé par l'IA — et vous, où êtes-vous ?</h3>
-              <p>Joue sur l'urgence et la prise de conscience. L'IA s'adapte à votre secteur et montre les acteurs qui ont déjà bougé.</p>
-              <span class="quiz-card-badge">5 questions · ~3 min</span>
-            </div>
-            <div class="quiz-card-arrow">→</div>
-          </div>
-
-          <div class="quiz-card" onclick="startQuiz(4)">
-            <div class="quiz-card-icon">💡</div>
-            <div class="quiz-card-content">
-              <div class="quiz-card-label">Quiz 4 · Projet IA</div>
-              <h3>Quel projet IA vous ferait gagner le plus en 6 mois ?</h3>
-              <p>On parle résultat business, pas technologie. L'IA guide vers le cas d'usage le plus pertinent pour vous.</p>
-              <span class="quiz-card-badge">6 questions · ~4 min</span>
-            </div>
-            <div class="quiz-card-arrow">→</div>
-          </div>
-
-          <div class="quiz-card" onclick="startQuiz(5)" style="border-color:rgba(196,133,42,0.35);">
-            <div class="quiz-card-icon">🧠</div>
-            <div class="quiz-card-content">
-              <div class="quiz-card-label">Quiz 5 · Profil de leader · ⭐ Le plus partagé</div>
-              <h3>Quel type de leader IA êtes-vous ?</h3>
-              <p>Quiz de personnalité viral. Profils : Visionnaire, Pragmatique, Prudent, Résistant. Chaque profil → message IAuAI personnalisé.</p>
-              <span class="quiz-card-badge">7 questions · ~5 min</span>
-            </div>
-            <div class="quiz-card-arrow">→</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- =====================================================
-           QUIZ EN COURS
-      ===================================================== -->
-      <div id="quiz-screen">
+      <section class="quiz-select" id="quiz-select">
+        <div class="eyebrow" style="justify-content:center;" data-fr="Quiz IA · Gratuit · 5 min" data-en="AI Quiz · Free · 5 min"></div>
+        <h1 data-fr="Où en êtes-vous vraiment avec l'IA ?" data-en="Where do you really stand with AI?"></h1>
+        <p data-fr="Choisissez un thème. Le diagnostic est immédiat et pensé pour un dirigeant." data-en="Pick a theme. The diagnosis is immediate and designed for business leaders."></p>
+        <div class="quiz-list" id="quiz-list"></div>
+      </section>
+      <section class="quiz-screen" id="quiz-screen">
         <div class="quiz-header">
-          <div class="quiz-title-bar">
-            <div class="quiz-icon" id="quiz-icon"></div>
-            <h2 id="quiz-screen-title"></h2>
+          <h2 id="quiz-title" style="color:var(--navy);margin-bottom:12px;"></h2>
+          <div class="progress-meta"><span id="quiz-progress-text"></span><span id="quiz-progress-percent"></span></div>
+          <div class="progress-track"><div class="progress-fill" id="quiz-progress-fill"></div></div>
+        </div>
+        <div class="question-card card">
+          <div class="question-title" id="question-title"></div>
+          <div class="option-list" id="option-list"></div>
+        </div>
+        <div class="quiz-nav">
+          <button class="btn-muted" id="quiz-prev"></button>
+          <button class="btn-primary" id="quiz-next"></button>
+        </div>
+      </section>
+      <section class="quiz-analyzing" id="quiz-analyzing">
+        <div class="analyze-box card">
+          <div style="font-size:3rem;margin-bottom:18px;">🤖</div>
+          <h2 style="color:var(--navy);margin-bottom:10px;" data-fr="Analyse en cours…" data-en="Analysis in progress…"></h2>
+          <p data-fr="Notre moteur consolide vos réponses." data-en="Our engine is consolidating your answers."></p>
+          <div class="analyze-steps">
+            <div class="analyze-step" data-fr="Lecture de vos réponses" data-en="Reading your answers"></div>
+            <div class="analyze-step" data-fr="Mise en perspective métier" data-en="Adding business context"></div>
+            <div class="analyze-step" data-fr="Calcul de votre profil" data-en="Calculating your profile"></div>
+            <div class="analyze-step" data-fr="Préparation des recommandations" data-en="Preparing recommendations"></div>
           </div>
-          <div class="progress-wrap">
-            <div class="progress-info">
-              <span class="progress-label" id="progress-label"></span>
-              <span class="progress-step" id="progress-step"></span>
-            </div>
-            <div class="progress-bar-track">
-              <div class="progress-bar-fill" id="progress-fill" style="width:0%"></div>
-            </div>
-          </div>
         </div>
-
-        <div class="question-card">
-          <div class="question-text" id="question-text"></div>
-          <div class="options-grid" id="options-grid"></div>
-        </div>
-
-        <div class="nav-buttons">
-          <button class="btn-prev" id="btn-prev" onclick="prevQuestion()" disabled>← Précédent</button>
-          <button class="btn-next" id="btn-next" onclick="nextQuestion()" disabled>Suivant →</button>
-        </div>
-      </div>
-
-      <!-- =====================================================
-           ANALYSE EN COURS
-      ===================================================== -->
-      <div id="quiz-analyzing">
-        <div class="analyzing-icon">🤖</div>
-        <h2>Analyse en cours…</h2>
-        <p>Notre IA traite vos réponses et prépare votre diagnostic personnalisé.</p>
-        <div class="analyzing-steps">
-          <div class="analyze-step" id="step-1"><div class="step-dot"></div>Lecture de vos réponses</div>
-          <div class="analyze-step" id="step-2"><div class="step-dot"></div>Comparaison sectorielle</div>
-          <div class="analyze-step" id="step-3"><div class="step-dot"></div>Calcul de votre profil</div>
-          <div class="analyze-step" id="step-4"><div class="step-dot"></div>Génération des recommandations</div>
-        </div>
-      </div>
-
-      <!-- =====================================================
-           RÉSULTAT
-      ===================================================== -->
-      <div id="quiz-result">
-        <div class="result-card">
+      </section>
+      <section class="quiz-result" id="quiz-result">
+        <div class="card" style="padding:0;overflow:hidden;">
           <div class="result-header">
-            <div class="result-profile-badge" id="result-badge"></div>
-            <h2 class="result-title" id="result-title"></h2>
-            <p class="result-subtitle" id="result-subtitle"></p>
+            <div class="result-badge" id="result-badge"></div>
+            <h2 id="result-title" style="margin-bottom:10px;"></h2>
+            <p id="result-subtitle" style="color:rgba(255,255,255,.78);"></p>
           </div>
           <div class="result-body">
-            <div class="result-score-bar">
-              <div class="result-score-label" id="score-label">Score de maturité IA</div>
-              <div class="score-track"><div class="score-fill" id="score-fill" style="width:0%"></div></div>
-              <div class="score-note" id="score-note"></div>
+            <div class="quote-meta" id="result-score-label"></div>
+            <div class="progress-track" style="margin:12px 0 8px;"><div class="progress-fill" id="result-score-fill" style="width:0;"></div></div>
+            <div id="result-score-note" style="color:rgba(43,43,43,.58);"></div>
+            <div class="insight-list" id="result-insights"></div>
+            <div class="actions">
+              <a class="btn-primary" href="mailto:contact@iauai.fr" data-fr="Parler à l'équipe" data-en="Talk to the team"></a>
+              <button class="btn-secondary" id="quiz-restart" type="button" data-fr="Recommencer" data-en="Start again"></button>
             </div>
-            <div class="result-insights" id="result-insights"></div>
-          </div>
-          <div class="result-cta">
-            <p>Votre diagnostic est prêt. L'équipe IAuAI peut vous accompagner concrètement.</p>
-            <div class="cta-buttons">
-              <a href="mailto:contact@iauai.fr?subject=Suite au Quiz IA IAuAI" class="btn-cta-primary">✉ Parler à l'équipe IAuAI</a>
-              <a href="index.html" class="btn-cta-secondary">← Retour au site</a>
-            </div>
-            <span class="restart-link" onclick="restartQuiz()">Essayer un autre quiz →</span>
           </div>
         </div>
-      </div>
-
+      </section>
     </div>
   </main>
-
+  <script src="assets/i18n.js"></script>
   <script>
-  /* ============================================================
-     DONNÉES DES QUIZ
-     5 quiz × N questions chacun
-  ============================================================ */
-  const QUIZZES = {
-
-    // ---- QUIZ 1 : Maturité IA ----
-    1: {
-      icon: "🎯",
-      title: "Maturité IA de votre entreprise",
-      scoreLabel: "Score de maturité IA",
-      questions: [
-        {
-          text: "Comment décririez-vous l'utilisation de l'IA dans votre entreprise aujourd'hui ?",
-          options: [
-            "Nous n'utilisons pas encore l'IA",
-            "Quelques outils IA en test ou sur un seul département",
-            "Plusieurs outils déployés mais sans stratégie globale",
-            "Une stratégie IA claire avec des résultats mesurables"
-          ],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Vos données métier sont-elles structurées et accessibles pour un usage IA ?",
-          options: [
-            "Non, nos données sont dispersées et peu fiables",
-            "Partiellement, mais sans gouvernance claire",
-            "Oui, pour certains domaines clés",
-            "Oui, nous avons une vraie gouvernance des données"
-          ],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Quelle est la position de votre direction sur l'IA ?",
-          options: [
-            "Attentiste — on surveille avant de se lancer",
-            "Curieuse — on explore sans engagement fort",
-            "Impliquée — la direction pousse activement les projets IA",
-            "Leader — l'IA est dans la feuille de route stratégique"
-          ],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Avez-vous des compétences IA en interne ?",
-          options: [
-            "Non, personne ne maîtrise ces sujets",
-            "Un ou deux profils curieux mais sans formation formelle",
-            "Une équipe technique capable de piloter des projets IA",
-            "Un centre d'excellence ou un responsable IA dédié"
-          ],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Comment vos équipes vivent-elles la transformation IA ?",
-          options: [
-            "Résistance forte — crainte de remplacement",
-            "Indifférence — peu d'engagement sur le sujet",
-            "Intérêt modéré — quelques ambassadeurs convaincus",
-            "Adhésion — les équipes sont actrices du changement"
-          ],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Mesurez-vous le ROI de vos initiatives IA ?",
-          options: [
-            "Non, pas encore de projets à mesurer",
-            "Non, mais on aimerait",
-            "Oui, de façon qualitative",
-            "Oui, avec des KPIs précis et un tableau de bord"
-          ],
-          scores: [0, 1, 2, 3]
-        }
-      ],
-      getResult: (total) => {
-        const pct = Math.round((total / 18) * 100);
-        if (total <= 4) return {
-          badge: "🌱 Phase d'éveil",
-          title: "Vous êtes au début du chemin.",
-          subtitle: "C'est exactement là que l'accompagnement fait la différence. Votre potentiel de progression est maximal.",
-          insights: [
-            { icon: "📋", text: "<strong>Priorité #1 :</strong> Cartographier vos données et identifier 2-3 cas d'usage à fort impact. Inutile d'investir massivement avant cela." },
-            { icon: "👥", text: "<strong>Priorité #2 :</strong> Former un référent IA interne qui sera le relais de la transformation. Un ambassadeur vaut mieux qu'un consultant externe seul." },
-            { icon: "🎯", text: "<strong>Ce qu'IAuAI peut faire :</strong> Un audit IA de 5 jours pour identifier vos priorités et démarrer sans risque." }
-          ],
-          score: pct, scoreNote: "Stade 1/4 · Fort potentiel d'accélération"
-        };
-        if (total <= 9) return {
-          badge: "⚙️ Phase d'exploration",
-          title: "Vous explorez — il est temps de structurer.",
-          subtitle: "Vous avez des outils, peut-être quelques succès locaux. La prochaine étape : une cohérence globale.",
-          insights: [
-            { icon: "🔗", text: "<strong>Votre enjeu :</strong> Connecter les initiatives isolées en une stratégie unifiée. Sans vision globale, les gains restent fragmentés." },
-            { icon: "🔐", text: "<strong>Point de vigilance :</strong> La gouvernance des données est souvent le nœud. Sans maîtrise des données, l'IA travaille sur du sable." },
-            { icon: "🎯", text: "<strong>Ce qu'IAuAI peut faire :</strong> Un programme de 3 mois pour consolider vos acquis et lancer 2 projets à ROI rapide." }
-          ],
-          score: pct, scoreNote: "Stade 2/4 · Vous avez les bases, structurez maintenant"
-        };
-        if (total <= 14) return {
-          badge: "🚀 Phase de déploiement",
-          title: "Vous avancez vite — gardez le cap.",
-          subtitle: "Vous avez une stratégie, des projets qui marchent. L'enjeu : passer de quelques succès à un avantage compétitif durable.",
-          insights: [
-            { icon: "⚡", text: "<strong>Votre force :</strong> La direction est impliquée et les équipes suivent. C'est rare et précieux — capitalisez dessus." },
-            { icon: "📈", text: "<strong>Prochaine étape :</strong> Industrialiser les usages qui fonctionnent et mesurer finement le ROI pour convaincre les derniers sceptiques." },
-            { icon: "🎯", text: "<strong>Ce qu'IAuAI peut faire :</strong> Un partenariat de transformation pour vous amener au stade 4 en 6 mois." }
-          ],
-          score: pct, scoreNote: "Stade 3/4 · Vous êtes dans le peloton de tête"
-        };
-        return {
-          badge: "🏆 Phase de leadership",
-          title: "Vous êtes un leader IA de votre secteur.",
-          subtitle: "Félicitations : vous faites partie des 10% d'entreprises qui ont vraiment intégré l'IA dans leur stratégie.",
-          insights: [
-            { icon: "🌟", text: "<strong>Votre position :</strong> Vous avez un avantage concurrentiel réel. L'enjeu est maintenant de le conserver et de l'étendre." },
-            { icon: "🔭", text: "<strong>Ce qui vous attend :</strong> IA agentique, souveraineté renforcée, formation continue des équipes. Le jeu ne s'arrête pas." },
-            { icon: "🤝", text: "<strong>Ce qu'IAuAI peut faire :</strong> Devenir votre partenaire stratégique IA, en interne ou sur des projets à fort enjeu." }
-          ],
-          score: pct, scoreNote: "Stade 4/4 · Leader IA · Top 10% des entreprises"
-        };
+    const QUIZZES = {
+      fr: {
+        buttons: { prev: '← Précédent', next: 'Suivant →', finish: 'Voir mon diagnostic →', question: 'Question', of: 'sur' },
+        items: [
+          { id: 1, icon: '🎯', tag: 'Quiz 1 · Maturité', title: "Évaluez la maturité IA de votre entreprise", description: "Situez votre organisation et voyez ce qui manque pour passer au niveau supérieur.", scoreLabel: 'Indice de maturité', questions: [["Quelle est votre situation actuelle ?", ['Aucune initiative structurée', 'Quelques tests isolés', 'Un pilote formalisé', 'Plusieurs usages déjà déployés'], [0,1,2,3]], ["Vos équipes utilisent-elles des outils IA ?", ['Jamais', 'À titre individuel', 'Sur certains processus', 'Oui, avec cadre et gouvernance'], [0,1,2,3]], ["Votre direction a-t-elle une vision claire ?", ['Non', 'Partielle', 'Oui sur quelques priorités', 'Oui avec feuille de route'], [0,1,2,3]], ["Comment traitez-vous les données sensibles ?", ['Aucun cadre', 'Prudence informelle', 'Règles écrites', 'Gouvernance active'], [0,1,2,3]]], results: [[2, '🔴 Stade initial', 'Vous êtes au tout début.', "L'urgence n'est pas de multiplier les outils, mais de poser un cadre crédible.", ['Clarifiez 2 priorités métier.', 'Cadrez les usages autorisés.', 'Choisissez un premier pilote simple.']], [7, '🟠 Stade exploratoire', 'Vous avez des signaux, pas encore un système.', 'Le bon prochain pas est de transformer les essais isolés en programme lisible.', ['Formalisez une feuille de route 90 jours.', 'Désignez un sponsor direction.', 'Sélectionnez un cas d\'usage avec ROI court.']], [12, '🟢 Stade structuré', 'Votre base est solide.', "L'enjeu devient l'industrialisation maîtrisée.", ['Étendez la gouvernance métier.', 'Mesurez les gains réels.', 'Priorisez 2 déploiements supplémentaires.']]] },
+          { id: 2, icon: '⏱️', tag: 'Quiz 2 · Temps', title: 'Combien d\'heures perdez-vous chaque semaine ?', description: "Identifiez les tâches répétitives où l'IA peut libérer du temps.", scoreLabel: 'Potentiel de gain', questions: [["Combien de temps passez-vous sur l'email et le tri d'information ?", ['Moins de 2h', '2 à 5h', '5 à 8h', 'Plus de 8h'], [0,1,2,3]], ['Le reporting est-il manuel ?', ['Non', 'Parfois', 'Souvent', 'Quasi toujours'], [0,1,2,3]], ['Les équipes recherchent-elles souvent des informations dispersées ?', ['Rarement', 'Parfois', 'Souvent', 'Tous les jours'], [0,1,2,3]], ['Les comptes-rendus et synthèses sont-ils longs à produire ?', ['Non', 'Un peu', 'Oui', 'Beaucoup'], [0,1,2,3]]], results: [[3, '🟢 Faible friction', 'Votre perte de temps est contenue.', "L'IA peut surtout améliorer le confort et la vitesse d'exécution.", ['Automatisez les synthèses récurrentes.', 'Ajoutez un assistant documentaire simple.', 'Gardez une approche légère et ciblée.']], [8, '🟠 Réserve de temps visible', 'Vous avez un vrai levier d\'efficacité.', 'Quelques automatisations ciblées peuvent rendre plusieurs heures par semaine.', ['Priorisez emails, reporting et recherche documentaire.', 'Créez un pilote pour une équipe métier.', 'Mesurez les heures récupérées après 30 jours.']], [12, '🔴 Gisement important', 'Vous perdez du temps à haute fréquence.', 'Il faut structurer des usages IA à ROI rapide.', ['Lancez un chantier d\'automatisation.', 'Réduisez les frictions documentaires.', 'Fixez un objectif de temps récupéré.']]] },
+          { id: 3, icon: '🧠', tag: 'Quiz 3 · Leader', title: 'Quel type de leader IA êtes-vous ?', description: 'Découvrez la posture qui guide vos décisions face à l\'IA.', scoreLabel: 'Engagement IA', questions: [['Votre première réaction face à l\'IA est…', ['L\'enthousiasme', 'La curiosité pragmatique', 'La prudence', 'Le scepticisme'], [3,2,1,0]], ['Quand un projet est incertain, vous…', ['Lancez vite', 'Testez en pilote', 'Attendez des garanties', 'Repoussez'], [3,2,1,0]], ['Votre rapport à la donnée est…', ['Stratégique', 'Pratique', 'Prudent', 'Distant'], [3,2,1,0]], ['Votre rôle auprès des équipes est plutôt…', ['Moteur', 'Soutien', 'Arbitre', 'Frein'], [3,2,1,0]]], results: [[3, '🤔 Profil Résistant', 'Vous doutez encore fortement.', 'Il faut des preuves simples et concrètes.', ['Commencez par un échange sans jargon.', 'Regardez un usage à ROI visible.', 'Ne lancez rien de large sans évidence.']], [7, '🛡️ Profil Prudent', 'Vous avancez avec méthode.', 'Votre force est la rigueur, votre risque est l\'inertie.', ['Cadrez la conformité.', 'Choisissez un pilote sans exposition excessive.', 'Fixez un calendrier de décision.']], [12, '⚙️ Profil Pragmatique / Visionnaire', 'Vous êtes prêt à agir si la structure suit.', 'Avec un bon cadre, vous pouvez aller vite sans perdre en maîtrise.', ['Priorisez un business case net.', 'Associez gouvernance et exécution.', 'Mettez une équipe courte et responsable.']]] }
+        ]
+      },
+      en: {
+        buttons: { prev: '← Previous', next: 'Next →', finish: 'See my diagnosis →', question: 'Question', of: 'of' },
+        items: [
+          { id: 1, icon: '🎯', tag: 'Quiz 1 · Maturity', title: 'Assess your company\'s AI maturity', description: 'Place your organization on the map and see what is missing to move up.', scoreLabel: 'Maturity index', questions: [['What is your current situation?', ['No structured initiative', 'A few isolated tests', 'One formal pilot', 'Several live use cases'], [0,1,2,3]], ['Are teams already using AI tools?', ['Never', 'Individually only', 'On selected workflows', 'Yes, with governance'], [0,1,2,3]], ['Does leadership have a clear view?', ['No', 'Partly', 'Yes on some priorities', 'Yes with a roadmap'], [0,1,2,3]], ['How do you handle sensitive data?', ['No framework', 'Informal caution', 'Written rules', 'Active governance'], [0,1,2,3]]], results: [[2, '🔴 Early stage', 'You are at the very beginning.', 'The priority is not more tools, but a credible operating frame.', ['Clarify 2 business priorities.', 'Define allowed usage rules.', 'Pick one simple pilot.']], [7, '🟠 Exploratory stage', 'You have signals, not yet a system.', 'The next step is turning isolated experiments into a readable program.', ['Formalize a 90-day roadmap.', 'Name an executive sponsor.', 'Choose one short-ROI use case.']], [12, '🟢 Structured stage', 'Your base is solid.', 'The challenge now is controlled scale and durable adoption.', ['Extend governance to business teams.', 'Measure real gains.', 'Prioritize 2 additional deployments.']]] },
+          { id: 2, icon: '⏱️', tag: 'Quiz 2 · Time', title: 'How many hours are you losing each week?', description: 'Identify repetitive work where AI can free up time.', scoreLabel: 'Savings potential', questions: [['How much time goes into email and information triage?', ['Less than 2h', '2 to 5h', '5 to 8h', 'More than 8h'], [0,1,2,3]], ['Is reporting manual?', ['No', 'Sometimes', 'Often', 'Almost always'], [0,1,2,3]], ['Do teams often search across scattered sources?', ['Rarely', 'Sometimes', 'Often', 'Every day'], [0,1,2,3]], ['Are summaries and meeting notes slow to produce?', ['No', 'A bit', 'Yes', 'A lot'], [0,1,2,3]]], results: [[3, '🟢 Low friction', 'Your time loss is still contained.', 'AI would mostly improve comfort and execution speed.', ['Automate recurring summaries.', 'Add a lightweight document assistant.', 'Keep the approach narrow.']], [8, '🟠 Clear time reserve', 'You have a real efficiency lever.', 'Targeted automation can return several hours per week.', ['Prioritize email, reporting and document search.', 'Run a pilot with one business team.', 'Measure hours recovered after 30 days.']], [12, '🔴 Major opportunity', 'You are losing time at high frequency.', 'This calls for structured, quick-ROI AI usage.', ['Launch a management automation stream.', 'Reduce document friction first.', 'Set a time-recovery target.']]] },
+          { id: 3, icon: '🧠', tag: 'Quiz 3 · Leader', title: 'What kind of AI leader are you?', description: 'Discover the posture driving your decisions around AI.', scoreLabel: 'AI engagement', questions: [['Your first reaction to AI is…', ['Excitement', 'Pragmatic curiosity', 'Caution', 'Skepticism'], [3,2,1,0]], ['When a project is uncertain, you…', ['Move fast', 'Test with a pilot', 'Wait for guarantees', 'Postpone'], [3,2,1,0]], ['Your relationship to data is…', ['Strategic', 'Practical', 'Careful', 'Distant'], [3,2,1,0]], ['Your role with teams is mostly…', ['Driver', 'Support', 'Arbiter', 'Brake'], [3,2,1,0]]], results: [[3, '🤔 Resistant profile', 'You still have strong doubts.', 'You need simple, concrete proof points.', ['Start with a no-jargon conversation.', 'Look at one visible-ROI use case.', 'Do not launch broadly without evidence.']], [7, '🛡️ Careful profile', 'You move methodically.', 'Your strength is rigor; your risk is prolonged inertia.', ['Frame compliance first.', 'Pick one low-exposure pilot.', 'Set a decision timeline.']], [12, '⚙️ Pragmatic / visionary profile', 'You are ready to move if the structure is sound.', 'With the right frame, you can move fast without losing control.', ['Prioritize a clear business case.', 'Link governance and execution.', 'Use a short, accountable team.']]] }
+        ]
       }
-    },
-
-    // ---- QUIZ 2 : Gains de temps ----
-    2: {
-      icon: "⏱️",
-      title: "Gains de temps potentiels",
-      scoreLabel: "Heures gagnables par semaine",
-      questions: [
-        {
-          text: "Combien de temps votre équipe passe-t-elle à rédiger des emails, comptes-rendus ou rapports chaque semaine ?",
-          options: ["Moins de 2h", "2 à 5h", "5 à 10h", "Plus de 10h"],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Quelle proportion de votre reporting est encore saisie ou consolidée manuellement ?",
-          options: ["Moins de 20%", "20 à 40%", "40 à 70%", "Plus de 70%"],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Combien d'heures perdez-vous par semaine à chercher des informations internes (docs, emails, historiques) ?",
-          options: ["Moins de 1h", "1 à 3h", "3 à 6h", "Plus de 6h"],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Vos processus de recrutement et onboarding sont-ils automatisés ?",
-          options: ["Très automatisés", "Partiellement", "Peu automatisés", "Quasi-manuels"],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Avez-vous des tâches répétitives de traitement de données (factures, commandes, contrats) encore réalisées à la main ?",
-          options: ["Non, tout est automatisé", "Quelques étapes manuelles", "Beaucoup de saisie manuelle", "La grande majorité est manuelle"],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Vos réunions et comités génèrent-ils des comptes-rendus manuels et une communication fastidieuse ?",
-          options: ["Non, c'est fluide", "Quelques frictions", "Oui, c'est chronophage", "C'est un vrai problème"],
-          scores: [0, 1, 2, 3]
-        }
-      ],
-      getResult: (total) => {
-        const h = Math.round(3 + (total / 18) * 20);
-        const pct = Math.min(Math.round((total / 18) * 100), 95);
-        return {
-          badge: `⏱️ ~${h}h récupérables/semaine`,
-          title: `Votre équipe peut récupérer ~${h} heures par semaine.`,
-          subtitle: "Ce ne sont pas des heures gagnées à faire du café — ce sont des heures pour innover, décider et avancer stratégiquement.",
-          insights: [
-            { icon: "📊", text: `<strong>Impact estimé :</strong> ${h} heures × 50 semaines = <strong>~${h * 50} heures/an</strong> libérées pour des tâches à forte valeur. Sur une équipe de 10 personnes, c'est l'équivalent de ${Math.round(h * 50 / 1600)} ETP.` },
-            { icon: "🤖", text: "<strong>Les 3 chantiers prioritaires :</strong> (1) Automatisation du reporting, (2) Génération assistée de contenu et emails, (3) Recherche d'information interne via un assistant IA." },
-            { icon: "💰", text: "<strong>ROI rapide :</strong> Ces gains se concrétisent généralement en 4 à 8 semaines après déploiement. Pas besoin d'attendre 18 mois." }
-          ],
-          score: pct, scoreNote: `Potentiel d'automatisation estimé à ${pct}% de vos tâches répétitives`
-        };
-      }
-    },
-
-    // ---- QUIZ 3 : Urgence sectorielle ----
-    3: {
-      icon: "🔥",
-      title: "Urgence de transformation de votre secteur",
-      scoreLabel: "Niveau d'urgence IA dans votre secteur",
-      questions: [
-        {
-          text: "Dans votre secteur, des concurrents ont-ils déjà annoncé des initiatives IA significatives ?",
-          options: ["Non, le secteur est encore stable", "Quelques annonces isolées", "Plusieurs acteurs bougent fortement", "L'IA est déjà au cœur de la compétition"],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Vos clients expriment-ils des attentes nouvelles liées à l'IA (rapidité, personnalisation, prédictivité) ?",
-          options: ["Pas du tout", "Rarement", "Parfois", "De plus en plus"],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Des nouveaux entrants (startups IA natives) attaquent-ils votre marché ?",
-          options: ["Non", "Quelques signaux faibles", "Oui, sur certains segments", "Oui, c'est une menace sérieuse"],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Votre secteur traite-t-il de grandes volumétries de données, de contrats, de documents ou de décisions répétitives ?",
-          options: ["Peu", "Modérément", "Oui, c'est notre quotidien", "Massivement"],
-          scores: [0, 1, 2, 3]
-        },
-        {
-          text: "Avez-vous senti des pressions sur vos marges liées à l'efficacité opérationnelle de concurrents ?",
-          options: ["Non", "Légèrement", "Clairement", "C'est un enjeu critique"],
-          scores: [0, 1, 2, 3]
-        }
-      ],
-      getResult: (total) => {
-        const pct = Math.round((total / 15) * 100);
-        if (total <= 5) return {
-          badge: "🟢 Fenêtre d'opportunité",
-          title: "Votre secteur offre encore une fenêtre d'opportunité.",
-          subtitle: "Vous avez du temps — mais pas indéfiniment. Les premiers à bouger captureront l'avantage durable.",
-          insights: [
-            { icon: "⏳", text: "<strong>Bonne nouvelle :</strong> Vous n'êtes pas sous pression immédiate. Vous pouvez construire intelligemment sans précipitation." },
-            { icon: "🏃", text: "<strong>Attention :</strong> Les secteurs qui semblent 'tranquilles' peuvent se transformer en 12-18 mois. Agir maintenant, c'est choisir son agenda plutôt que le subir." },
-            { icon: "🎯", text: "<strong>Conseil IAuAI :</strong> Un travail de veille sectorielle IA pour cartographier les signaux et définir votre timing optimal." }
-          ],
-          score: pct, scoreNote: "Urgence modérée · Agissez avant que la fenêtre se ferme"
-        };
-        if (total <= 10) return {
-          badge: "🟠 Zone de turbulences",
-          title: "Votre secteur entre en zone de turbulences.",
-          subtitle: "Les signaux s'accumulent. Vos concurrents avancent. Le bon timing, c'est maintenant.",
-          insights: [
-            { icon: "⚡", text: "<strong>Signal fort :</strong> Des acteurs de votre secteur ont déjà capté un avantage IA. Chaque mois d'attente creuse l'écart." },
-            { icon: "🔐", text: "<strong>Votre risque principal :</strong> Se retrouver dans une position de rattrapage coûteux plutôt que d'être dans la vague porteuse." },
-            { icon: "🎯", text: "<strong>Ce qu'IAuAI propose :</strong> Un programme de 90 jours pour passer de la veille à l'action sur 2 cas d'usage prioritaires." }
-          ],
-          score: pct, scoreNote: "Urgence élevée · Chaque mois compte"
-        };
-        return {
-          badge: "🔴 Transformation en cours",
-          title: "La transformation de votre secteur est déjà en marche.",
-          subtitle: "Ce n'est plus une question de 'si' mais de 'comment vite'. Voici comment ne pas se laisser distancer.",
-          insights: [
-            { icon: "🚨", text: "<strong>Réalité sectorielle :</strong> Les leaders de votre marché utilisent déjà l'IA comme levier compétitif. Les suiveurs paient le prix de l'attente." },
-            { icon: "💡", text: "<strong>Votre atout :</strong> Vous avez l'expérience métier que les startups n'ont pas. Combinée à l'IA, c'est un avantage défendable." },
-            { icon: "🎯", text: "<strong>Ce qu'IAuAI propose :</strong> Un plan de transformation IA accéléré sur 6 mois, ancré sur vos priorités business réelles." }
-          ],
-          score: pct, scoreNote: "Urgence critique · Le temps de l'action est maintenant"
-        };
-      }
-    },
-
-    // ---- QUIZ 4 : Meilleur projet IA ----
-    4: {
-      icon: "💡",
-      title: "Votre meilleur projet IA en 6 mois",
-      scoreLabel: "Potentiel d'impact business",
-      questions: [
-        {
-          text: "Quel est votre principal levier de croissance aujourd'hui ?",
-          options: ["Acquisition de nouveaux clients", "Fidélisation et upsell", "Efficacité opérationnelle", "Innovation produit/service"],
-          scores: [1, 2, 3, 4]
-        },
-        {
-          text: "Où votre équipe perd-elle le plus de temps ?",
-          options: ["Tâches administratives et reporting", "Communication et coordination interne", "Recherche d'information et veille", "Production et livraison"],
-          scores: [3, 2, 1, 4]
-        },
-        {
-          text: "Quel type de données avez-vous en abondance ?",
-          options: ["Données clients et comportements d'achat", "Documents, contrats, emails internes", "Données financières et KPIs", "Données de production ou terrain"],
-          scores: [1, 2, 3, 4]
-        },
-        {
-          text: "Quelle est votre principale douleur managériale en ce moment ?",
-          options: ["Prendre de meilleures décisions plus vite", "Réduire les coûts opérationnels", "Retenir et développer les talents", "Satisfaire des clients de plus en plus exigeants"],
-          scores: [1, 3, 2, 4]
-        },
-        {
-          text: "Quel horizon de ROI est acceptable pour un projet IA chez vous ?",
-          options: ["Moins de 3 mois — ROI immédiat requis", "3 à 6 mois", "6 à 12 mois", "Plus d'un an — on peut investir long terme"],
-          scores: [4, 3, 2, 1]
-        },
-        {
-          text: "Votre marché est-il très réglementé ?",
-          options: ["Non, grande liberté d'action", "Réglementation légère", "Réglementation significative", "Secteur très réglementé (santé, banque, etc.)"],
-          scores: [4, 3, 2, 1]
-        }
-      ],
-      getResult: (total) => {
-        const pct = Math.round((total / 24) * 100);
-        let project, details;
-        if (total <= 10) {
-          project = "Assistant IA pour la relation client";
-          details = "Votre profil indique un potentiel fort sur la personnalisation de l'expérience client. Un assistant IA peut qualifier les leads, répondre aux FAQ et personnaliser les offres.";
-        } else if (total <= 16) {
-          project = "Automatisation du reporting et de la veille";
-          details = "Vous perdez des ressources précieuses sur des tâches à faible valeur ajoutée. Un pipeline IA d'automatisation du reporting libère 5 à 15h/semaine par manager.";
-        } else if (total <= 20) {
-          project = "Moteur de recherche interne et RAG documentaire";
-          details = "Votre connaissance interne est enfouie dans des silos. Un système RAG (Retrieval Augmented Generation) donne à vos équipes un accès instantané à l'information utile.";
-        } else {
-          project = "Copilote IA pour la prise de décision";
-          details = "Votre maturité et vos données vous permettent d'envisager un outil d'aide à la décision qui synthétise données financières, marché et opérations en temps réel.";
-        }
-        return {
-          badge: `💡 Projet recommandé`,
-          title: project,
-          subtitle: details,
-          insights: [
-            { icon: "📅", text: `<strong>Délai de mise en œuvre :</strong> Un premier déploiement opérationnel en 6 à 10 semaines avec IAuAI. Un POC en 2 semaines pour valider l'hypothèse.` },
-            { icon: "💰", text: `<strong>ROI attendu :</strong> Ce type de projet génère typiquement 15 à 40% de gain d'efficacité sur le périmètre ciblé dans les 6 premiers mois.` },
-            { icon: "🔐", text: `<strong>Souveraineté :</strong> IAuAI construit des solutions ancrées dans votre infrastructure. Vos données ne partent pas chez des tiers.` }
-          ],
-          score: pct, scoreNote: "Potentiel d'impact business estimé sur 6 mois"
-        };
-      }
-    },
-
-    // ---- QUIZ 5 : Profil de leader ----
-    5: {
-      icon: "🧠",
-      title: "Quel type de leader IA êtes-vous ?",
-      scoreLabel: "Indice d'engagement IA",
-      questions: [
-        {
-          text: "Quand vous entendez 'intelligence artificielle', votre première réaction est…",
-          options: [
-            "De l'excitation — j'y vois une opportunité majeure",
-            "De la curiosité pragmatique — je veux savoir ce que ça m'apporte concrètement",
-            "De la prudence — je veux comprendre les risques avant",
-            "Du scepticisme — le sujet est trop souvent survenu"
-          ],
-          scores: [4, 3, 1, 0]
-        },
-        {
-          text: "Comment prenez-vous une décision d'investissement technologique ?",
-          options: [
-            "Vite, sur l'instinct et la vision — le marché ne pardonne pas l'attente",
-            "Sur la base d'un business case chiffré et d'un ROI démontrable",
-            "Après avoir consulté des experts et analysé les risques",
-            "Rarement — j'attends que ça soit mature et prouvé"
-          ],
-          scores: [4, 3, 1, 0]
-        },
-        {
-          text: "Votre rapport à la donnée est…",
-          options: [
-            "Stratégique — les données sont notre actif le plus précieux",
-            "Pragmatique — je veux des insights actionnables, pas du volume",
-            "Prudent — la protection et la conformité d'abord",
-            "Distant — les données, c'est l'affaire de la DSI"
-          ],
-          scores: [4, 3, 2, 0]
-        },
-        {
-          text: "Face à un projet IA qui présente des incertitudes techniques, vous…",
-          options: [
-            "Vous lancez et itérez — l'apprentissage vaut le risque",
-            "Faites un POC court pour valider avant de vous engager",
-            "Attendez que des pairs aient essayé avant vous",
-            "Préférez ne pas s'y aventurer pour l'instant"
-          ],
-          scores: [4, 3, 1, 0]
-        },
-        {
-          text: "Comment vos équipes vous voient-elles sur les sujets IA ?",
-          options: [
-            "Comme un moteur — c'est moi qui pousse le plus fort",
-            "Comme un soutien — j'encourage les initiatives",
-            "Comme un arbitre — je valide quand c'est bien préparé",
-            "Comme un frein — je ralentis les enthousiasmes"
-          ],
-          scores: [4, 3, 1, 0]
-        },
-        {
-          text: "Dans 3 ans, votre entreprise et l'IA, c'est…",
-          options: [
-            "L'IA est au cœur de toutes nos décisions et processus",
-            "2 ou 3 cas d'usage bien ciblés qui tournent vraiment",
-            "On aura avancé prudemment, selon nos moyens",
-            "Probablement à peu près comme aujourd'hui"
-          ],
-          scores: [4, 3, 1, 0]
-        },
-        {
-          text: "Ce qui vous freine le plus dans l'adoption de l'IA est…",
-          options: [
-            "Rien — c'est une priorité absolue",
-            "Le manque de temps et de ressources dédiées",
-            "L'incertitude sur la sécurité et la conformité",
-            "Je ne suis pas convaincu de la valeur ajoutée"
-          ],
-          scores: [4, 2, 1, 0]
-        }
-      ],
-      getResult: (total) => {
-        const pct = Math.round((total / 28) * 100);
-        if (total >= 22) return {
-          badge: "🚀 Profil Visionnaire",
-          title: "Vous êtes un Visionnaire.",
-          subtitle: "Vous voyez l'IA comme un levier de transformation profonde, pas un gadget. Votre défi : ancrer vos intuitions dans une exécution rigoureuse.",
-          insights: [
-            { icon: "✨", text: "<strong>Votre force :</strong> Vous inspirez vos équipes et allez chercher les opportunités avant les autres. C'est un avantage compétitif rare." },
-            { icon: "⚠️", text: "<strong>Votre point de vigilance :</strong> La vision sans structure peut s'épuiser. Construire un cadre d'exécution solide transforme l'élan en résultats durables." },
-            { icon: "🤝", text: "<strong>Ce qu'IAuAI peut faire :</strong> Structurer votre feuille de route IA et la rendre exécutable sans perdre l'ambition." }
-          ],
-          score: pct, scoreNote: "Profil Visionnaire · Score d'engagement IA maximal"
-        };
-        if (total >= 14) return {
-          badge: "⚙️ Profil Pragmatique",
-          title: "Vous êtes un Pragmatique.",
-          subtitle: "Vous voulez des résultats, pas des promesses. L'IA doit prouver sa valeur avant de recevoir vos ressources. C'est la posture la plus saine pour investir intelligemment.",
-          insights: [
-            { icon: "💼", text: "<strong>Votre force :</strong> Vous évitez les fausses bonnes idées et exigez un ROI mesurable. Résultat : vos projets IA ont plus de chances de réussir que la moyenne." },
-            { icon: "⚡", text: "<strong>Votre prochaine étape :</strong> Identifier 1 à 2 cas d'usage à ROI rapide (< 6 mois) pour déclencher la dynamique sans tout risquer." },
-            { icon: "🤝", text: "<strong>Ce qu'IAuAI peut faire :</strong> Qualifier vos cas d'usage par leur potentiel ROI et construire le business case avec vous." }
-          ],
-          score: pct, scoreNote: "Profil Pragmatique · Orientation résultat élevée"
-        };
-        if (total >= 7) return {
-          badge: "🛡️ Profil Prudent",
-          title: "Vous êtes un Prudent.",
-          subtitle: "Vous avancez avec méthode. Vous préférez bien faire plutôt que faire vite. L'IA vous intéresse, mais les risques doivent être maîtrisés.",
-          insights: [
-            { icon: "🔐", text: "<strong>Votre force :</strong> Votre rigueur protège l'entreprise des erreurs coûteuses. Les transformations durables se construisent sur cette base." },
-            { icon: "⏳", text: "<strong>Votre risque :</strong> La prudence peut devenir de l'inaction si elle n'est pas dosée. Vos concurrents n'attendent pas que tout soit parfait." },
-            { icon: "🤝", text: "<strong>Ce qu'IAuAI peut faire :</strong> Vous donner le cadre de sécurité (RGPD, gouvernance, tests) pour avancer avec confiance, sans exposer l'entreprise." }
-          ],
-          score: pct, scoreNote: "Profil Prudent · Approche méthodique et rigoureuse"
-        };
-        return {
-          badge: "🤔 Profil Résistant",
-          title: "Vous êtes un Résistant — et c'est honnête.",
-          subtitle: "Vous n'êtes pas convaincu, ou vous avez des raisons de douter. C'est légitime. Mais ce diagnostic est peut-être l'occasion d'examiner ce qui vous retient vraiment.",
-          insights: [
-            { icon: "🔍", text: "<strong>Ce qui se cache souvent derrière la résistance :</strong> Des expériences décevantes passées, un manque d'exemples concrets dans votre secteur, ou des priorités qui semblent plus urgentes." },
-            { icon: "💡", text: "<strong>Ce qu'on observe :</strong> Les dirigeants les plus sceptiques deviennent souvent les plus exigeants — et donc les meilleurs ambassadeurs quand ils voient des résultats." },
-            { icon: "🤝", text: "<strong>Notre proposition :</strong> 30 minutes d'échange sans pitch commercial pour explorer ce qui pourrait changer votre perception." }
-          ],
-          score: pct, scoreNote: "Profil Résistant · Une opportunité de dialogue ouvert"
-        };
-      }
-    }
-  };
-
-  /* ============================================================
-     ÉTAT DU QUIZ
-  ============================================================ */
-  let currentQuiz = null;
-  let currentQuestion = 0;
-  let answers = [];
-
-  /* ============================================================
-     DÉMARRAGE
-  ============================================================ */
-  function startQuiz(id) {
-    currentQuiz = QUIZZES[id];
-    currentQuestion = 0;
-    answers = new Array(currentQuiz.questions.length).fill(null);
-
-    document.getElementById('quiz-landing').style.display = 'none';
-    document.getElementById('quiz-screen').style.display = 'block';
-    document.getElementById('quiz-icon').textContent = currentQuiz.icon;
-    document.getElementById('quiz-screen-title').textContent = currentQuiz.title;
-
-    renderQuestion();
-  }
-
-  function renderQuestion() {
-    const q = currentQuiz.questions[currentQuestion];
-    const total = currentQuiz.questions.length;
-
-    document.getElementById('question-text').textContent = q.text;
-    document.getElementById('progress-label').textContent = `Question ${currentQuestion + 1} sur ${total}`;
-    document.getElementById('progress-step').textContent = `${Math.round(((currentQuestion + 1) / total) * 100)}%`;
-    document.getElementById('progress-fill').style.width = `${((currentQuestion + 1) / total) * 100}%`;
-
-    const grid = document.getElementById('options-grid');
-    grid.innerHTML = '';
-    const letters = ['A','B','C','D'];
-    q.options.forEach((opt, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'option-btn' + (answers[currentQuestion] === i ? ' selected' : '');
-      btn.innerHTML = `<span class="opt-letter">${letters[i]}</span>${opt}`;
-      btn.onclick = () => selectOption(i);
-      grid.appendChild(btn);
-    });
-
-    document.getElementById('btn-prev').disabled = currentQuestion === 0;
-    document.getElementById('btn-next').disabled = answers[currentQuestion] === null;
-    const isLast = currentQuestion === currentQuiz.questions.length - 1;
-    document.getElementById('btn-next').textContent = isLast ? 'Voir mon diagnostic →' : 'Suivant →';
-  }
-
-  function selectOption(idx) {
-    answers[currentQuestion] = idx;
-    document.querySelectorAll('.option-btn').forEach((btn, i) => {
-      btn.classList.toggle('selected', i === idx);
-    });
-    document.getElementById('btn-next').disabled = false;
-  }
-
-  function nextQuestion() {
-    if (answers[currentQuestion] === null) return;
-    if (currentQuestion < currentQuiz.questions.length - 1) {
-      currentQuestion++;
-      renderQuestion();
-    } else {
-      showAnalyzing();
-    }
-  }
-
-  function prevQuestion() {
-    if (currentQuestion > 0) {
-      currentQuestion--;
-      renderQuestion();
-    }
-  }
-
-  /* ============================================================
-     ANALYSE ANIMÉE
-  ============================================================ */
-  function showAnalyzing() {
-    document.getElementById('quiz-screen').style.display = 'none';
-    document.getElementById('quiz-analyzing').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    const steps = ['step-1','step-2','step-3','step-4'];
-    let s = 0;
-    const interval = setInterval(() => {
-      if (s > 0) document.getElementById(steps[s-1]).classList.remove('active');
-      if (s > 0) document.getElementById(steps[s-1]).classList.add('done');
-      if (s < steps.length) {
-        document.getElementById(steps[s]).classList.add('active');
-        s++;
-      } else {
-        clearInterval(interval);
-        setTimeout(showResult, 800);
-      }
-    }, 700);
-  }
-
-  /* ============================================================
-     RÉSULTAT
-  ============================================================ */
-  function showResult() {
-    // Calculer le score total
-    const total = answers.reduce((sum, answerIdx, qIdx) => {
-      if (answerIdx === null) return sum;
-      return sum + currentQuiz.questions[qIdx].scores[answerIdx];
-    }, 0);
-
-    const result = currentQuiz.getResult(total);
-
-    document.getElementById('quiz-analyzing').style.display = 'none';
-    document.getElementById('quiz-result').style.display = 'block';
-
-    document.getElementById('result-badge').textContent = result.badge;
-    document.getElementById('result-title').textContent = result.title;
-    document.getElementById('result-subtitle').textContent = result.subtitle;
-    document.getElementById('score-label').textContent = currentQuiz.scoreLabel;
-    document.getElementById('score-note').textContent = result.scoreNote;
-
-    const insightsContainer = document.getElementById('result-insights');
-    insightsContainer.innerHTML = result.insights.map(ins => `
-      <div class="insight-item">
-        <div class="insight-icon">${ins.icon}</div>
-        <div class="insight-text">${ins.text}</div>
-      </div>
-    `).join('');
-
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    // Animate score bar
-    setTimeout(() => {
-      document.getElementById('score-fill').style.width = result.score + '%';
-    }, 200);
-  }
-
-  function restartQuiz() {
-    document.getElementById('quiz-result').style.display = 'none';
-    document.getElementById('quiz-landing').style.display = 'block';
-    currentQuiz = null; currentQuestion = 0; answers = [];
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  /* ============================================================
-     INIT — Lecture du paramètre URL ?quiz=N
-  ============================================================ */
-  document.addEventListener('DOMContentLoaded', () => {
-    const params = new URLSearchParams(window.location.search);
-    const quizId = parseInt(params.get('quiz'));
-    if (quizId && QUIZZES[quizId]) {
-      startQuiz(quizId);
-    }
-  });
+    };
+    const locale = IAUAI_I18N.getLocale();
+    IAUAI_I18N.applyLocale(locale);
+    const data = QUIZZES[QUIZZES[locale] ? locale : 'en'];
+    document.getElementById('quiz-prev').textContent = data.buttons.prev;
+    document.getElementById('quiz-next').textContent = data.buttons.next;
+    const list = document.getElementById('quiz-list');
+    list.innerHTML = data.items.map(q => `<article class="quiz-tile card" data-quiz="${q.id}"><div class="quiz-icon">${q.icon}</div><div class="quiz-meta"><div class="quiz-tag">${q.tag}</div><h3>${q.title}</h3><p>${q.description}</p></div><div class="quiz-arrow">→</div></article>`).join('');
+    const select = document.getElementById('quiz-select');
+    const screen = document.getElementById('quiz-screen');
+    const analyzing = document.getElementById('quiz-analyzing');
+    const result = document.getElementById('quiz-result');
+    const prev = document.getElementById('quiz-prev');
+    const next = document.getElementById('quiz-next');
+    const restart = document.getElementById('quiz-restart');
+    let currentQuiz = null; let currentIndex = 0; let answers = [];
+    function show(view){select.style.display=view==='select'?'block':'none';screen.style.display=view==='screen'?'block':'none';analyzing.style.display=view==='analyzing'?'block':'none';result.style.display=view==='result'?'block':'none';}
+    function renderQuestion(){const q=currentQuiz.questions[currentIndex];const total=currentQuiz.questions.length;document.getElementById('quiz-title').textContent=currentQuiz.title;document.getElementById('question-title').textContent=q[0];document.getElementById('quiz-progress-text').textContent=`${data.buttons.question} ${currentIndex+1} ${data.buttons.of} ${total}`;document.getElementById('quiz-progress-percent').textContent=`${Math.round(((currentIndex+1)/total)*100)}%`;document.getElementById('quiz-progress-fill').style.width=`${((currentIndex+1)/total)*100}%`;const opts=document.getElementById('option-list');opts.innerHTML='';q[1].forEach((label,i)=>{const b=document.createElement('button');b.className=`option-btn${answers[currentIndex]===i?' selected':''}`;b.type='button';b.innerHTML=`<span class="option-index">${String.fromCharCode(65+i)}</span><span>${label}</span>`;b.onclick=()=>{answers[currentIndex]=i;renderQuestion();};opts.appendChild(b);});prev.disabled=currentIndex===0;next.textContent=currentIndex===total-1?data.buttons.finish:data.buttons.next;next.disabled=answers[currentIndex]===null||answers[currentIndex]===undefined;}
+    function score(){return answers.reduce((sum,ans,idx)=>sum+currentQuiz.questions[idx][2][ans],0);}
+    function showResult(){const total=score();const out=currentQuiz.results.find(([limit])=>total<=limit)||currentQuiz.results[currentQuiz.results.length-1];const max=currentQuiz.questions.length*3;document.getElementById('result-badge').textContent=out[1];document.getElementById('result-title').textContent=out[2];document.getElementById('result-subtitle').textContent=out[3];document.getElementById('result-score-label').textContent=currentQuiz.scoreLabel;document.getElementById('result-score-note').textContent=`${total}/${max}`;document.getElementById('result-insights').innerHTML=out[4].map(x=>`<div class="insight">${x}</div>`).join('');setTimeout(()=>{document.getElementById('result-score-fill').style.width=`${Math.round((total/max)*100)}%`;},100);show('result');}
+    function analyze(){show('analyzing');const steps=[...document.querySelectorAll('.analyze-step')];steps.forEach(step=>step.classList.remove('active','done'));let i=0;const timer=setInterval(()=>{if(i>0)steps[i-1].classList.add('done');if(i<steps.length){steps[i].classList.add('active');i+=1;return;}clearInterval(timer);showResult();},450);}
+    list.querySelectorAll('[data-quiz]').forEach(tile=>tile.onclick=()=>{currentQuiz=data.items.find(q=>q.id===Number(tile.dataset.quiz));currentIndex=0;answers=new Array(currentQuiz.questions.length).fill(null);show('screen');renderQuestion();window.scrollTo({top:0,behavior:'smooth'});});
+    prev.onclick=()=>{if(currentIndex>0){currentIndex-=1;renderQuestion();}};
+    next.onclick=()=>{if(answers[currentIndex]===null||answers[currentIndex]===undefined)return;if(currentIndex<currentQuiz.questions.length-1){currentIndex+=1;renderQuestion();}else{analyze();}};
+    restart.onclick=()=>{currentQuiz=null;currentIndex=0;answers=[];document.getElementById('result-score-fill').style.width='0';show('select');window.scrollTo({top:0,behavior:'smooth'});};
+    show('select');
   </script>
 </body>
 </html>
