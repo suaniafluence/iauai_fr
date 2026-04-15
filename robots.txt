@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://iauai.fr/sitemap.xml

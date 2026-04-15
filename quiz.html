@@ -11,6 +11,13 @@
     data-page-desc-ar="اختبار IAuAI للذكاء الاصطناعي."
     content="Quiz IA IAuAI." />
   <meta name="robots" content="index, follow" />
+  <meta property="og:title" content="Quiz maturité IA — IAuAI" />
+  <meta property="og:description" content="Évaluez la maturité IA de votre entreprise en 5 minutes. Diagnostic personnalisé, gratuit, sans inscription." />
+  <meta property="og:image" content="https://iauai.fr/assets/images/logo_iauai_sombre.png" />
+  <meta property="og:url" content="https://iauai.fr/quiz.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <link rel="canonical" href="https://iauai.fr/quiz.html" />
   <link rel="icon" href="assets/images/ico.ico" type="image/x-icon" />
   <title
     data-page-title-fr="Quiz IA — IAuAI"
@@ -22,6 +29,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/site.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
   <header class="topbar">
@@ -152,13 +160,30 @@
             <div class="progress-track" style="margin:12px 0 8px;"><div class="progress-fill" id="result-score-fill" style="width:0;"></div></div>
             <div id="result-score-note" style="color:rgba(43,43,43,.58);"></div>
             <div class="insight-list" id="result-insights"></div>
+            <div class="contact-fields">
+              <div class="contact-row">
+                <div class="field-group">
+                  <label for="contact-name" data-fr="Nom & Prénom" data-en="Full name" data-es="Nombre completo" data-zh="姓名" data-ar="الاسم الكامل"></label>
+                  <input type="text" id="contact-name" autocomplete="name" />
+                </div>
+                <div class="field-group">
+                  <label for="contact-role" data-fr="Fonction" data-en="Position" data-es="Cargo" data-zh="职位" data-ar="المنصب"></label>
+                  <input type="text" id="contact-role" autocomplete="organization-title" />
+                </div>
+              </div>
+              <div class="field-group">
+                <label for="contact-email" data-fr="Email" data-en="Email" data-es="Email" data-zh="电子邮件" data-ar="البريد الإلكتروني"></label>
+                <input type="email" id="contact-email" autocomplete="email" />
+              </div>
+            </div>
+            <div id="send-feedback" class="send-feedback"></div>
             <div class="actions">
-              <a class="btn-primary" href="mailto:contact@iauai.fr"
+              <button class="btn-primary" id="talk-btn" type="button"
                 data-fr="Parler à l'équipe"
                 data-en="Talk to the team"
                 data-es="Hablar con el equipo"
                 data-zh="联系团队"
-                data-ar="تحدث مع الفريق"></a>
+                data-ar="تحدث مع الفريق"></button>
               <button class="btn-secondary" id="quiz-restart" type="button"
                 data-fr="Recommencer"
                 data-en="Start again"
@@ -215,6 +240,11 @@
         ]
       }
     };
+    const EMAILJS_PUBLIC_KEY  = 'uBLl8a5N0HPn0bcvd';
+    const EMAILJS_SERVICE_ID  = 'service_vn28cc8';
+    const EMAILJS_TEMPLATE_ID = 'template_9db34ki';
+    emailjs.init(EMAILJS_PUBLIC_KEY);
+    let lastResult = null;
     const locale = IAUAI_I18N.getLocale();
     IAUAI_I18N.applyLocale(locale);
     const data = QUIZZES[QUIZZES[locale] ? locale : 'en'];
@@ -233,12 +263,56 @@
     function show(view){select.style.display=view==='select'?'block':'none';screen.style.display=view==='screen'?'block':'none';analyzing.style.display=view==='analyzing'?'block':'none';result.style.display=view==='result'?'block':'none';}
     function renderQuestion(){const q=currentQuiz.questions[currentIndex];const total=currentQuiz.questions.length;document.getElementById('quiz-title').textContent=currentQuiz.title;document.getElementById('question-title').textContent=q[0];document.getElementById('quiz-progress-text').textContent=`${data.buttons.question} ${currentIndex+1} ${data.buttons.of} ${total}`;document.getElementById('quiz-progress-percent').textContent=`${Math.round(((currentIndex+1)/total)*100)}%`;document.getElementById('quiz-progress-fill').style.width=`${((currentIndex+1)/total)*100}%`;const opts=document.getElementById('option-list');opts.innerHTML='';q[1].forEach((label,i)=>{const b=document.createElement('button');b.className=`option-btn${answers[currentIndex]===i?' selected':''}`;b.type='button';b.innerHTML=`<span class="option-index">${String.fromCharCode(65+i)}</span><span>${label}</span>`;b.onclick=()=>{answers[currentIndex]=i;renderQuestion();};opts.appendChild(b);});prev.disabled=currentIndex===0;next.textContent=currentIndex===total-1?data.buttons.finish:data.buttons.next;next.disabled=answers[currentIndex]===null||answers[currentIndex]===undefined;}
     function score(){return answers.reduce((sum,ans,idx)=>sum+currentQuiz.questions[idx][2][ans],0);}
-    function showResult(){const total=score();const out=currentQuiz.results.find(([limit])=>total<=limit)||currentQuiz.results[currentQuiz.results.length-1];const max=currentQuiz.questions.length*3;document.getElementById('result-badge').textContent=out[1];document.getElementById('result-title').textContent=out[2];document.getElementById('result-subtitle').textContent=out[3];document.getElementById('result-score-label').textContent=currentQuiz.scoreLabel;document.getElementById('result-score-note').textContent=`${total}/${max}`;document.getElementById('result-insights').innerHTML=out[4].map(x=>`<div class="insight">${x}</div>`).join('');setTimeout(()=>{document.getElementById('result-score-fill').style.width=`${Math.round((total/max)*100)}%`;},100);show('result');}
+    function showResult(){const total=score();const out=currentQuiz.results.find(([limit])=>total<=limit)||currentQuiz.results[currentQuiz.results.length-1];const max=currentQuiz.questions.length*3;document.getElementById('result-badge').textContent=out[1];document.getElementById('result-title').textContent=out[2];document.getElementById('result-subtitle').textContent=out[3];document.getElementById('result-score-label').textContent=currentQuiz.scoreLabel;document.getElementById('result-score-note').textContent=`${total}/${max}`;document.getElementById('result-insights').innerHTML=out[4].map(x=>`<div class="insight">${x}</div>`).join('');setTimeout(()=>{document.getElementById('result-score-fill').style.width=`${Math.round((total/max)*100)}%`;},100);lastResult={quizTitle:currentQuiz.title,total,max,badge:out[1],level:out[2],subtitle:out[3],insights:out[4]};document.getElementById('send-feedback').className='send-feedback';document.getElementById('send-feedback').textContent='';show('result');}
     function analyze(){show('analyzing');const steps=[...document.querySelectorAll('.analyze-step')];steps.forEach(step=>step.classList.remove('active','done'));let i=0;const timer=setInterval(()=>{if(i>0)steps[i-1].classList.add('done');if(i<steps.length){steps[i].classList.add('active');i+=1;return;}clearInterval(timer);showResult();},450);}
     list.querySelectorAll('[data-quiz]').forEach(tile=>tile.onclick=()=>{currentQuiz=data.items.find(q=>q.id===Number(tile.dataset.quiz));currentIndex=0;answers=new Array(currentQuiz.questions.length).fill(null);show('screen');renderQuestion();window.scrollTo({top:0,behavior:'smooth'});});
     prev.onclick=()=>{if(currentIndex>0){currentIndex-=1;renderQuestion();}};
     next.onclick=()=>{if(answers[currentIndex]===null||answers[currentIndex]===undefined)return;if(currentIndex<currentQuiz.questions.length-1){currentIndex+=1;renderQuestion();}else{analyze();}};
-    restart.onclick=()=>{currentQuiz=null;currentIndex=0;answers=[];document.getElementById('result-score-fill').style.width='0';show('select');window.scrollTo({top:0,behavior:'smooth'});};
+    restart.onclick=()=>{currentQuiz=null;currentIndex=0;answers=[];lastResult=null;document.getElementById('result-score-fill').style.width='0';document.getElementById('contact-name').value='';document.getElementById('contact-role').value='';document.getElementById('contact-email').value='';document.getElementById('send-feedback').className='send-feedback';document.getElementById('send-feedback').textContent='';show('select');window.scrollTo({top:0,behavior:'smooth'});};
+    document.getElementById('talk-btn').onclick=function(){
+      const nameEl=document.getElementById('contact-name');
+      const emailEl=document.getElementById('contact-email');
+      const name=nameEl.value.trim();
+      const role=document.getElementById('contact-role').value.trim();
+      const email=emailEl.value.trim();
+      const feedback=document.getElementById('send-feedback');
+      nameEl.classList.toggle('invalid',!name);
+      emailEl.classList.toggle('invalid',!email);
+      if(!name||!email||!lastResult){console.warn('[talk-btn] guard bloqué — name:',!!name,'email:',!!email,'lastResult:',!!lastResult);return;}
+      console.log('[EmailJS] envoi — service:',EMAILJS_SERVICE_ID,'template:',EMAILJS_TEMPLATE_ID);
+      this.disabled=true;
+      const emailI18n={
+        greeting:{fr:'Bonjour',en:'Hello',es:'Hola',zh:'您好',ar:'مرحباً'},
+        footer:{fr:'Merci pour votre intérêt. Nous vous contacterons rapidement.',en:'Thank you for your interest. We will contact you shortly.',es:'Gracias por su interés. Le contactaremos en breve.',zh:'感谢您的关注，我们将尽快与您联系。',ar:'شكراً لاهتمامك. سنتواصل معك قريباً.'}
+      };
+      const payload={
+        name:name,
+        email:email,
+        reply_to:email,
+        email_equipe:'contact@iauai.fr',
+        locale:locale,
+        greeting:emailI18n.greeting[locale]||emailI18n.greeting.en,
+        footer:emailI18n.footer[locale]||emailI18n.footer.en,
+        title:'[Quiz IAuAI] '+lastResult.quizTitle+' — '+lastResult.badge+' '+lastResult.level,
+        message:'Quiz : '+lastResult.quizTitle+'\n'+(role?'Fonction : '+role+'\n':'')+'Score : '+lastResult.total+'/'+lastResult.max+' ('+Math.round((lastResult.total/lastResult.max)*100)+'%)\nNiveau : '+lastResult.badge+' '+lastResult.level+'\n'+lastResult.subtitle+'\n\nPoints clés :\n'+lastResult.insights.join('\n')
+      };
+      console.log('[EmailJS] payload:',JSON.stringify(payload));
+      const feedbackMsgs={
+        success:{fr:'✓ Message envoyé ! Nous vous répondrons sous 24h.',en:'✓ Message sent! We\'ll get back to you within 24h.',es:'✓ ¡Mensaje enviado! Le responderemos en menos de 24h.',zh:'✓ 消息已发送！我们将在24小时内回复您。',ar:'✓ تم إرسال الرسالة! سنرد عليك خلال 24 ساعة.'},
+        error:{fr:'Erreur lors de l\'envoi. Veuillez réessayer.',en:'Error sending message. Please try again.',es:'Error al enviar el mensaje. Por favor, inténtelo de nuevo.',zh:'发送失败，请重试。',ar:'حدث خطأ أثناء الإرسال. يرجى المحاولة مرة أخرى.'}
+      };
+      emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,payload).then((res)=>{
+        console.log('[EmailJS] succès:',res);
+        feedback.textContent=feedbackMsgs.success[locale]||feedbackMsgs.success.en;
+        feedback.className='send-feedback success';
+        this.disabled=false;
+      },(err)=>{
+        console.error('[EmailJS] erreur:',err);
+        feedback.textContent=feedbackMsgs.error[locale]||feedbackMsgs.error.en;
+        feedback.className='send-feedback error';
+        this.disabled=false;
+      });
+    };
     show('select');
   </script>
 </body>

@@ -240,6 +240,17 @@ p { margin: 0; }
 .result-body { padding: 32px 36px 36px; }
 .insight-list { display: grid; gap: 14px; margin: 22px 0 26px; }
 .insight { padding: 16px; border-radius: 14px; background: rgba(26, 46, 74, 0.04); border: 1px solid var(--line); }
+.contact-fields { margin: 0 0 20px; display: flex; flex-direction: column; gap: 12px; }
+.contact-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field-group { display: flex; flex-direction: column; gap: 5px; }
+.field-group label { font-size: 0.73rem; font-weight: 500; color: var(--navy); font-family: "JetBrains Mono", monospace; text-transform: uppercase; letter-spacing: 0.09em; }
+.field-group input { padding: 10px 14px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; color: var(--anthracite); font-family: "Inter", sans-serif; font-size: 0.95rem; outline: none; transition: border-color .2s; }
+.field-group input:focus { border-color: var(--navy); }
+.field-group input.invalid { border-color: #c43232; }
+.send-feedback { display: none; margin-top: 10px; padding: 10px 16px; border-radius: 10px; font-size: 0.88rem; font-weight: 500; }
+.send-feedback.success { background: rgba(45,106,79,.1); border: 1px solid var(--green); color: var(--green); display: block; }
+.send-feedback.error { background: rgba(196,50,50,.08); border: 1px solid #c43232; color: #c43232; display: block; }
+@media (max-width: 600px) { .contact-row { grid-template-columns: 1fr; } }
 
 .legal-wrap { max-width: 880px; margin: 56px auto 80px; padding: 0 20px; }
 .legal-header { margin-bottom: 42px; padding-bottom: 24px; border-bottom: 2px solid var(--line); }
